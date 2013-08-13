@@ -6,10 +6,7 @@ function createTagGroup(id, tags) {
     return _tagGroupDB({id: id}).first();
 }
 
-//function createTag(title) {
-//    if ()
-//    return _tagDB.insert({title: title});
-//}
+//traverseBookmarks(bookmarks[0].children[0].children, null)
 
 function traverseBookmarks(bookmarkTreeNodes, tagGroup) {
     var node,
@@ -36,48 +33,20 @@ function traverseBookmarks(bookmarkTreeNodes, tagGroup) {
         }
     }
 }
-/*
-function traverseBookmarks(bookmarkTreeNodes, tagGroupKey) {
-    var node,
-        i,
-        len,
-        tagGroup = _tagGroups[tagGroupKey],
-        tagGroupId = tagGroup ? tagGroup.id : null,
-        tags = tagGroup ? tagGroup.tags : [],
-        newTagGroupKey,
-        newTagGroup;
 
-    for(i=0, len = bookmarkTreeNodes.length; i < len; i++) {
-        node = bookmarkTreeNodes[i];
-
-        if (node.url) {
-            _bookmarkDB.insert({id: node.id, tagGroupId: tagGroupId, title: node.title, url: node.url});
-        } else {
-            createTag(node.title);
+function findTagGroups(tags) {
+    var groups = [];
+    _tagGroupDB().each(function (record,recordnumber) {
+        if (_.intersection(tags, record['tags']).length === tags.length) {
+            groups.push(record.id);
         }
-
-        if(node.children) {
-            newTagGroupKey = tagGroupKey + '-' + node.id;
-            if (!_tagGroups[newTagGroupKey]) {
-                newTagGroup = createTagGroup(_.clone(tags));
-                _tagGroups[newTagGroupKey] = newTagGroup;
-            }
-            traverseBookmarks(node.children, newTagGroupKey);
-        }
-    }
+    });
+    return groups;
 }
-*/
-//traverseBookmarks(bookmarks[0].children[0].children, '')
-/*
-function traverseBookmarks(bookmarkTreeNodes) {
-    for(var i=0;i<bookmarkTreeNodes.length;i++) {
-        console.log(bookmarkTreeNodes[i].title, bookmarkTreeNodes[i].url ? bookmarkTreeNodes[i].url : "[Folder]");
 
-        if(bookmarkTreeNodes[i].children) {
-            traverseBookmarks(bookmarkTreeNodes[i].children);
-        } 
+//findTagGroups(['Invest', 'China'])
 
-    }
+function updateTags(tagsToChange, newTags) {
+    
 }
-idea -> business -> startup
-*/
+
