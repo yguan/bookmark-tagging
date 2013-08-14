@@ -1,4 +1,10 @@
-<script src ="js/bookmarks.json.js"></script>
-<script src ="js/lib/lodash.underscore.js"></script>
-<script src ="js/lib/taffy.js"></script>
-<script src ="js/app.js"></script>
+<script src ="js/lib/cajon.js"></script>
+<script>
+    require.config({
+        baseUrl: 'js'
+    });
+
+    require(['app'], function (app) {
+        app.run();
+    });
+</script>
