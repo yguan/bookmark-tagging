@@ -1,11 +1,11 @@
 require('./lib/lodash.underscore');
 
-var bookmarkRepo = require('./bookmark-repository'),
-    tagGroupRepo = require('./tag-group-repository');
+var loader = require('./bookmark-loader'),
+    chromeBookmarks = require('./bookmarks-json').bookmarks;
 
 module.exports = {
     run: function () {
-        tagGroupRepo.add(['invest']);
-        var a = tagGroupRepo.findAll(['invest']);
+        loader.loadChromeBookmarks(chromeBookmarks[0].children[0].children);
+        console.log(loader.tagGroupRepo.findAll(['Ideas']));
     }
 };

@@ -10,6 +10,10 @@ module.exports = {
     },
     add: function (tags) {
         var group = this.findExact(tags);
+        if (group) {
+            return group;
+        }
+
         return group ? group : this.create(tags);
     },
     findAll: function (tags) {
