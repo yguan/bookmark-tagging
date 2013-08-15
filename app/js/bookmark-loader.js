@@ -13,7 +13,12 @@ function loadChromeBookmarks(bookmarkTreeNodes, tagGroup) {
         node = bookmarkTreeNodes[i];
 
         if (node.url) {
-            bookmarkRepo.create({tagGroupId: tagGroup && tagGroup.id, title: node.title, url: node.url});
+            bookmarkRepo.create({
+                tagGroupId: tagGroup && tagGroup.id,
+                title: node.title,
+                url: node.url,
+                dateAdded: node.dateAdded
+            });
         } else {
             tags = (tagGroup && tagGroup.tags) || [];
             newTags = _.clone(tags);
@@ -28,9 +33,15 @@ function loadChromeBookmarks(bookmarkTreeNodes, tagGroup) {
 }
 
 module.exports = {
-    //loadBookmark(bookmarks[0].children[0].children, null)
     loadChromeBookmarks: function (bookmarkTreeNodes) {
         loadChromeBookmarks(bookmarkTreeNodes, null);
+        console.log(tagGroupRepo.findAll(['Ideas'])); // todo: remove this
+    },
+    loadBookmarksFromChrome: function () {
+        chrome.bookmarks.getTree(function (tree) {
+            loadChromeBookmarks(tree[0].children[0].children, null);
+            console.log(tagGroupRepo.findAll(['Ideas'])); // todo: remove this
+        });
     },
     bookmarkRepo: bookmarkRepo,
     tagGroupRepo: tagGroupRepo
