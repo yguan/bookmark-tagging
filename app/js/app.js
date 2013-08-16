@@ -3,11 +3,16 @@ require.config({
 });
 
 require(['./lib/lodash.underscore', './bookmark-loader', './bookmarks-json'], function(l, loader, chromeBookmarks) {
-    function run() {
-        loader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children);
-//        loader.loadBookmarksFromChrome();
+    if (chrome.bookmarks) {
+        // for chrome extension
+        loader.loadBookmarksFromChrome();
+    } else {
+        // for regular web page
+        require(['./bookmarks-json'], function(chromeBookmarks) {
+            loader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children);
+        });
     }
 
-    run();
 // python -m http.server
 });
+
