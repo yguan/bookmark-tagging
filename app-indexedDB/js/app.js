@@ -12,7 +12,7 @@ require(['lib/lodash.underscore', 'data/bookmark-loader', 'data/bookmarks-json']
         loader.loadBookmarksFromChrome();
     } else {
         // for regular web page
-        require(['./data/bookmarks-json'], function(chromeBookmarks) {
+        require(['data/bookmarks-json'], function(chromeBookmarks) {
             loader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children);
         });
     }
