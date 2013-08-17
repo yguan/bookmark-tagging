@@ -1,4 +1,4 @@
-var db = require('./lib/db'),
+var db = require('lib/db'),
     idb = {
         loadIndexedDB: function (op) {
             var me = this;

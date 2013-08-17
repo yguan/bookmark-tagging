@@ -1,6 +1,6 @@
-var idb = require('./idb'),
-    bookmarkRepo = require('./bookmark-repository'),
-    tagGroupRepo = require('./tag-group-repository');
+var idb = require('data/idb'),
+    bookmarkRepo = require('data/bookmark-repository'),
+    tagGroupRepo = require('data/tag-group-repository');
 
 function loadChromeBookmarks(bookmarkTreeNodes, tagGroup) {
     var node,
@@ -75,3 +75,9 @@ module.exports = {
     bookmarkRepo: bookmarkRepo,
     tagGroupRepo: tagGroupRepo
 };
+
+/* function to traverse bookmark tree recursively
+ chrome.bookmarks.getTree(function (tree) {
+ console.log(JSON.stringify(tree));
+ });
+*/

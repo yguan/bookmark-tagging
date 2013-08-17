@@ -1,4 +1,4 @@
-var idb = require('./idb');
+var idb = require('data/idb');
 
 module.exports = {
     create: function (tags, op) {
