@@ -169,4 +169,4 @@ node_modules/
 .idea/
 
 # Packaging
-www-built/
+app-built/
