@@ -18,6 +18,7 @@ module.exports = {
     findExact: function (tags, op) {
         idb.findExact(dbKey, 'tags', tags, op);
     },
-    update: function (groupId, newTags) {
+    update: function (tagGroup, op) {
+        idb.update(dbKey, tagGroup, op);
     }
 };

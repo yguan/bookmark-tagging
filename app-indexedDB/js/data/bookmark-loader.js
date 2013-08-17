@@ -1,41 +1,8 @@
 var idb = require('data/idb'),
     bookmarkRepo = require('data/bookmark-repository'),
-    tagGroupRepo = require('data/tag-group-repository');
+    tagGroupRepo = require('data/tag-group-repository'),
+    bookmarkParser = require('data/chrome-bookmark-parser');
 
-function loadChromeBookmarks(bookmarkTreeNodes, tagGroup) {
-    var node,
-        i,
-        len,
-        tags,
-        newTagGroup,
-        newTags;
-
-    for(i=0, len = bookmarkTreeNodes.length; i < len; i++) {
-        node = bookmarkTreeNodes[i];
-
-        if (node.url) {
-//            bookmarkRepo.create({
-//                tagGroupId: tagGroup && tagGroup.id,
-//                title: node.title,
-//                url: node.url,
-//                dateAdded: node.dateAdded
-//            });
-        } else {
-            tags = (tagGroup && tagGroup.tags) || [];
-            newTags = _.clone(tags);
-            newTags.push(node.title);
-            tagGroupRepo.create(newTags, {
-                success: function (results) {
-                    if(node.children) {
-                        loadChromeBookmarks(node.children, results[0]);
-                    }
-                }
-            });
-
-
-        }
-    }
-}
 //findTagGroup(['Ideas']);
 window.findTagGroup = function (tags) {
     tagGroupRepo.findAll(tags, {
@@ -57,27 +24,46 @@ window.findTagGroup = function (tags) {
 
 }
 
+function loadBookmarks(bookmarkTreeNodes) {
+    var results = bookmarkParser.parseChromeBookmarks(bookmarkTreeNodes),
+        bookmarks = results.bookmarks,
+        tagGroups = results.tagGroups,
+        newTagGroupCount = tagGroups.length,
+        persistedTagGroupCount = 0;
+
+    function persistBookmarks() {
+        _.each(bookmarks, function (bookmark) {
+            var tags = bookmark.tags;
+            delete bookmark.tags;
+            bookmarkRepo.create(bookmark, tags, {});
+        });
+    }
+    _.each(tagGroups, function (tags) {
+        tagGroupRepo.add(tags,{
+            success: function () {
+                persistedTagGroupCount++;
+                if (persistedTagGroupCount === newTagGroupCount) {
+                    persistBookmarks();
+                }
+            }
+        })
+    });
+}
+
 module.exports = {
     loadChromeBookmarks: function (bookmarkTreeNodes) {
         idb.loadIndexedDB({
             success: function () {
-                loadChromeBookmarks(bookmarkTreeNodes, null);
-
+                loadBookmarks(bookmarkTreeNodes);
             }
         });
     },
     loadBookmarksFromChrome: function () {
         chrome.bookmarks.getTree(function (tree) {
-            loadChromeBookmarks(tree[0].children[0].children, null);
+            loadBookmarks(tree[0].children[0].children);
             console.log(tagGroupRepo.findAll(['Ideas'])); // todo: remove this
         });
     },
     bookmarkRepo: bookmarkRepo,
     tagGroupRepo: tagGroupRepo
 };
-
-/* function to traverse bookmark tree recursively
- chrome.bookmarks.getTree(function (tree) {
- console.log(JSON.stringify(tree));
- });
-*/

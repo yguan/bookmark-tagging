@@ -1,28 +1,39 @@
 var idb = require('data/idb'),
-    tagGroupRepo = require('data/tag-group-repository');
+    tagGroupRepo = require('data/tag-group-repository'),
+    dbKey = 'bookmark';
 
 module.exports = {
-    create: function (bookmark, op) {
-        idb.db.bookmark.add(bookmark).done(op.success).fail(op.failure);
+    create: function (bookmark, tags, op) {
+        if (tags) {
+            tagGroupRepo.add(tags, {
+                success: function (tagGroup) {
+                    bookmark.tagGroupId = tagGroup.id;
+                    idb.create(dbKey, bookmark, op);
+                },
+                failure: function (error) {
+                    console.log(error);
+                }
+            })
+        } else {
+            idb.create(dbKey, bookmark, op);
+        }
     },
     add: function (bookmark) {
-        var existingBookmark = this.find(bookmark.title, bookmark.url);
-        if (existingBookmark) {
-            return existingBookmark;
-        }
-
-        bookmarkDB.insert(bookmark);
-        return this.find(bookmark.title, bookmark.url);
+        idb.add(dbKey, bookmark, 'url', op);
     },
-    find: function (title, url) {
-        return bookmarkDB({title: title}, {url: url}).first();
+    findByKey: function (key, value, op) {
+        idb.findAllByKey(dbKey, key, value, op);
     },
-    get: function (id) {
-        return _bookmarkDB(id).first();
+    update: function (bookmark, op) {
+        idb.update(dbKey, bookmark, op);
     },
-    update: function (bookmark) {
-        var group = tagGroupRepo.addTagGroup(bookmark.tags);
-        bookmarkDB(bookmark.___id).update({title: bookmark.title}, {url: bookmark.url}, {tagGroupId: group.id});
-        return this.get(bookmark.___id);
+    updateTags: function (bookmark, newTags, op) {
+        tagGroupRepo.findExact(newTags, {
+            success: function (results) {
+                bookmark.tagGroupId = results[0].id;
+                idb.update(dbKey, bookmark, op);
+            },
+            failure: function () {}
+        })
     }
 };

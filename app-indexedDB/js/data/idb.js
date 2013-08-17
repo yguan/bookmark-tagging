@@ -16,9 +16,9 @@ var db = require('lib/db'),
                             autoIncrement: true
                         },
                         indexes: {
-                            title: { },
+                            title: {},
                             dateAdded: {},
-                            tagGroupId: { unique: true }
+                            tagGroupId: {}
                         }
                     },
                     tagGroup: {
@@ -43,12 +43,14 @@ var db = require('lib/db'),
             idb.db[dbKey].add(item).done(op.success).fail(op.failure);
         },
         add: function (dbKey, item, uniqueItemKey, op) {
-            this.findExact(item[uniqueItemKey], {
+            var me = this;
+
+            me.findExact(dbKey, uniqueItemKey, item[uniqueItemKey], {
                 success: function (results) {
                     if (results && results.length === 1) {
                         op.success(results[0]);
                     } else {
-                        this.create(item, op);
+                        me.create(dbKey, item, op);
                     }
                 },
                 failure: op.failure
@@ -62,12 +64,22 @@ var db = require('lib/db'),
                 .done(op.success)
                 .fail(op.failure);
         },
+        findAllByKey: function (dbKey, key, value, op) {
+            idb.db[dbKey]
+                .query(key)
+                .only(value)
+                .execute()
+                .done(op.success)
+                .fail(op.failure);
+        },
         findExact: function (dbKey, key, value, op) {
             idb.db[dbKey].query(key).only(value).execute().done(op.success).fail(op.failure);
         },
-        update: function (groupId, newTags) {
-            tagGroupDB({id: groupId}).update({tags: newTags});
-            return tagGroupDB({id: groupId}).first();
+        update: function (dbKey, item, op) {
+            idb.db[dbKey]
+                .update( item )
+                .done(op.success)
+                .fail(op.failure);
         }
     };
 
