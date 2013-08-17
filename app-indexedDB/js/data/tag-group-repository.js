@@ -1,36 +1,23 @@
-var idb = require('data/idb');
+var idb = require('data/idb'),
+    dbKey = 'tagGroup';
 
 module.exports = {
     create: function (tags, op) {
-        idb.db.tagGroup.add({tags: tags}).done(op.success).fail(op.failure);
+        idb.create(dbKey, {tags: tags}, op);
     },
     add: function (tags, op) {
-        this.findExact(tags, {
-            success: function (results) {
-                if (results && results.length === 1) {
-                    op.success(results[0]);
-                } else {
-                    this.create(tags, op);
-                }
-            },
-            failure: op.failure
-        });
+        idb.add(dbKey, {tags: tags}, 'tags', op);
     },
     findAll: function (tags, op) {
-        idb.db.tagGroup
-            .query()
-            .filter(function (tagGroup) {
-                return (_.intersection(tags, tagGroup.tags).length === tags.length);
-            })
-            .execute()
-            .done(op.success)
-            .fail(op.failure);
+        var filterFn = function (tagGroup) {
+            return (_.intersection(tags, tagGroup.tags).length === tags.length);
+        };
+
+        idb.findAll(dbKey, filterFn, op);
     },
     findExact: function (tags, op) {
-        idb.db.tagGroup.query('tags').only(tags).execute().done(op.success).fail(op.failure);
+        idb.findExact(dbKey, 'tags', tags, op);
     },
     update: function (groupId, newTags) {
-        tagGroupDB({id: groupId}).update({tags: newTags});
-        return tagGroupDB({id: groupId}).first();
     }
 };

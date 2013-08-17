@@ -2,8 +2,8 @@ var idb = require('data/idb'),
     tagGroupRepo = require('data/tag-group-repository');
 
 module.exports = {
-    create: function (bookmark) {
-        bookmarkDB.insert(bookmark);
+    create: function (bookmark, op) {
+        idb.db.bookmark.add(bookmark).done(op.success).fail(op.failure);
     },
     add: function (bookmark) {
         var existingBookmark = this.find(bookmark.title, bookmark.url);
