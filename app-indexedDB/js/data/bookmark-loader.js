@@ -25,7 +25,7 @@ function loadChromeBookmarks(bookmarkTreeNodes, tagGroup) {
             newTags = _.clone(tags);
             newTags.push(node.title);
             tagGroupRepo.create(newTags, {
-                onSuccess: function (results) {
+                success: function (results) {
                     if(node.children) {
                         loadChromeBookmarks(node.children, results[0]);
                     }
@@ -39,18 +39,18 @@ function loadChromeBookmarks(bookmarkTreeNodes, tagGroup) {
 //findTagGroup(['Ideas']);
 window.findTagGroup = function (tags) {
     tagGroupRepo.findAll(tags, {
-        onSuccess: function (results) {
+        success: function (results) {
             console.log(results);
         },
-        onFailure: function (r) {
+        failure: function (r) {
             console.log(r);
         }
     });
     tagGroupRepo.findExact(tags, {
-        onSuccess: function (results) {
+        success: function (results) {
             console.log(results);
         },
-        onFailure: function (r) {
+        failure: function (r) {
             console.log(r);
         }
     });
@@ -60,7 +60,7 @@ window.findTagGroup = function (tags) {
 module.exports = {
     loadChromeBookmarks: function (bookmarkTreeNodes) {
         idb.loadIndexedDB({
-            onSuccess: function () {
+            success: function () {
                 loadChromeBookmarks(bookmarkTreeNodes, null);
 
             }

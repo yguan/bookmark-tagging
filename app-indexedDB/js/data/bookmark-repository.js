@@ -1,5 +1,5 @@
 var idb = require('data/idb'),
-    tagGroupRepo = require('../data/tag-group-repository');
+    tagGroupRepo = require('data/tag-group-repository');
 
 module.exports = {
     create: function (bookmark) {

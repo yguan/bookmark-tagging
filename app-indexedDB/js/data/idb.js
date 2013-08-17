@@ -10,6 +10,17 @@ var db = require('lib/db'),
                 server: 'app-db',
                 version: 1,
                 schema: {
+                    bookmark: {
+                        key: {
+                            keyPath: 'id',
+                            autoIncrement: true
+                        },
+                        indexes: {
+                            title: { },
+                            dateAdded: {},
+                            tagGroupId: { unique: true }
+                        }
+                    },
                     tagGroup: {
                         key: {
                             keyPath: 'id',
@@ -19,24 +30,13 @@ var db = require('lib/db'),
                             tags: { unique: true }
                         }
                     }
-//                    ,
-//                    bookmark: {
-//                        key: {
-//                            keyPath: 'id',
-//                            autoIncrement: true
-//                        },
-//                        indexes: {
-//                            title: { },
-//                            tagGroupId: { unique: true }
-//                        }
-//                    }
                 }
             })
             .done(function (dbInstance) {
                     me.db = dbInstance;
-                op.onSuccess();
+                op.success();
             })
-            .fail(op.onFailure);
+            .fail(op.failure);
         },
         db: null
     };

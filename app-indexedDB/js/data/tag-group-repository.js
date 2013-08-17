@@ -2,18 +2,18 @@ var idb = require('data/idb');
 
 module.exports = {
     create: function (tags, op) {
-        idb.db.tagGroup.add({tags: tags}).done(op.onSuccess).fail(op.onFailure);
+        idb.db.tagGroup.add({tags: tags}).done(op.success).fail(op.failure);
     },
     add: function (tags, op) {
         this.findExact(tags, {
-            onSuccess: function (results) {
+            success: function (results) {
                 if (results && results.length === 1) {
-                    op.onSuccess(results[0]);
+                    op.success(results[0]);
                 } else {
                     this.create(tags, op);
                 }
             },
-            onFailure: op.onFailure
+            failure: op.failure
         });
     },
     findAll: function (tags, op) {
@@ -23,11 +23,11 @@ module.exports = {
                 return (_.intersection(tags, tagGroup.tags).length === tags.length);
             })
             .execute()
-            .done(op.onSuccess)
-            .fail(op.onFailure);
+            .done(op.success)
+            .fail(op.failure);
     },
     findExact: function (tags, op) {
-        idb.db.tagGroup.query('tags').only(tags).execute().done(op.onSuccess).fail(op.onFailure);
+        idb.db.tagGroup.query('tags').only(tags).execute().done(op.success).fail(op.failure);
     },
     update: function (groupId, newTags) {
         tagGroupDB({id: groupId}).update({tags: newTags});
