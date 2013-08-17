@@ -1,4 +1,5 @@
-var bookmarkRepo = require('./bookmark-repository'),
+var idb = require('./idb'),
+    bookmarkRepo = require('./bookmark-repository'),
     tagGroupRepo = require('./tag-group-repository');
 
 function loadChromeBookmarks(bookmarkTreeNodes, tagGroup) {
@@ -23,19 +24,47 @@ function loadChromeBookmarks(bookmarkTreeNodes, tagGroup) {
             tags = (tagGroup && tagGroup.tags) || [];
             newTags = _.clone(tags);
             newTags.push(node.title);
-            newTagGroup = tagGroupRepo.create(newTags);
+            tagGroupRepo.create(newTags, {
+                onSuccess: function (results) {
+                    if(node.children) {
+                        loadChromeBookmarks(node.children, results[0]);
+                    }
+                }
+            });
 
-            if(node.children) {
-                loadChromeBookmarks(node.children, newTagGroup);
-            }
+
         }
     }
+}
+//findTagGroup(['Ideas']);
+window.findTagGroup = function (tags) {
+    tagGroupRepo.findAll(tags, {
+        onSuccess: function (results) {
+            console.log(results);
+        },
+        onFailure: function (r) {
+            console.log(r);
+        }
+    });
+    tagGroupRepo.findExact(tags, {
+        onSuccess: function (results) {
+            console.log(results);
+        },
+        onFailure: function (r) {
+            console.log(r);
+        }
+    });
+
 }
 
 module.exports = {
     loadChromeBookmarks: function (bookmarkTreeNodes) {
-        loadChromeBookmarks(bookmarkTreeNodes, null);
-        console.log(tagGroupRepo.findAll(['Ideas'])); // todo: remove this
+        idb.loadIndexedDB({
+            onSuccess: function () {
+                loadChromeBookmarks(bookmarkTreeNodes, null);
+
+            }
+        });
     },
     loadBookmarksFromChrome: function () {
         chrome.bookmarks.getTree(function (tree) {

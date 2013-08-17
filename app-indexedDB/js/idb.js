@@ -1,39 +1,45 @@
-var db = require('./lib/db');
+var db = require('./lib/db'),
+    idb = {
+        loadIndexedDB: function (op) {
+            var me = this;
 
-module.exports = {
-    loadIndexedDB: function () {
-        if (this.db) {
-            return;
-        }
-        db.open({
-            server: 'app-db',
-            version: 1,
-            schema: {
-                tagGroup: {
-                    key: {
-                        keyPath: 'id',
-                        autoIncrement: true
-                    },
-                    indexes: {
-                        tags: { unique: true }
-                    }
-                },
-                bookmark: {
-                    key: {
-                        keyPath: 'id',
-                        autoIncrement: true
-                    },
-                    indexes: {
-                        title: { },
-                        tagGroupId: { unique: true }
-                    }
-                }
+            if (me.db) {
+                return;
             }
-        }).done(function (dbInstance) {
-            this.db = dbInstance;
-        });
-    },
-    db: null
-};
+            db.open({
+                server: 'app-db',
+                version: 1,
+                schema: {
+                    tagGroup: {
+                        key: {
+                            keyPath: 'id',
+                            autoIncrement: true
+                        },
+                        indexes: {
+                            tags: { unique: true }
+                        }
+                    }
+//                    ,
+//                    bookmark: {
+//                        key: {
+//                            keyPath: 'id',
+//                            autoIncrement: true
+//                        },
+//                        indexes: {
+//                            title: { },
+//                            tagGroupId: { unique: true }
+//                        }
+//                    }
+                }
+            })
+            .done(function (dbInstance) {
+                    me.db = dbInstance;
+                op.onSuccess();
+            })
+            .fail(op.onFailure);
+        },
+        db: null
+    };
 
-module.exports.loadIndexedDB();
+module.exports = idb;
+

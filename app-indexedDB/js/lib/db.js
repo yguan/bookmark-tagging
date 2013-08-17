@@ -23,7 +23,9 @@
                 state = state || [ context , args ];
 
                 for ( var i = 0 , il = list.length ; i < il ; i++ ) {
-                    list[ i ].apply( state[ 0 ] , state[ 1 ] );
+                    if (list[i]) {
+                        list[ i ].apply( state[ 0 ] , state[ 1 ] );
+                    }
                 }
 
                 list = [];
