@@ -1,20 +1,34 @@
-var bookmarkLoader = require('data/bookmark-loader');
+var bookmarkLoader = require('data/bookmark-loader'),
+    msgBox;
+
+function showMsg($dialog, msg){
+    var msg = 'This is the content of the message box';
+    msgBox = $dialog.messageBox('', msg, []);
+    msgBox.open();
+}
+
+function hideMsg() {
+    msgBox.close();
+}
 
 module.exports = {
     name: 'ActionButtonsCtrl',
-    controller: function($scope) {
+    controller: function($scope, $dialog) {
         var op = {
             success: function (msg) {
                 $scope.alerts = [{ type: 'success', msg: msg || 'Loaded bookmarks successfully.' }];
+                hideMsg();
             },
             failure: function (msg) {
                 $scope.alerts = [{ type: 'error', msg: msg || 'Failed to load all bookmarks.' }];
+                hideMsg();
             }
         }
 
         $scope.alerts = [];
 
         $scope.loadBookmarks = function () {
+            showMsg($dialog, 'Loading bookmarks from Chrome...');
             if (chrome.bookmarks) {
                 // for chrome extension
                 bookmarkLoader.loadBookmarksFromChrome(op);
@@ -33,6 +47,8 @@ module.exports = {
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
+
+
     }
 };
 

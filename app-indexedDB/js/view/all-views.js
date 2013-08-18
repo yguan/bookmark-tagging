@@ -1,7 +1,7 @@
 var bookmarkLoader = require('view/chrome-action');
 
 function registerController(module, name, controller) {
-    module.controller(name, ['$scope', controller]);
+    module.controller(name, ['$scope', '$dialog', controller]);
 }
 
 module.exports = {
