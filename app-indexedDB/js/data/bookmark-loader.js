@@ -59,9 +59,12 @@ module.exports = {
         });
     },
     loadBookmarksFromChrome: function () {
-        chrome.bookmarks.getTree(function (tree) {
-            loadBookmarks(tree[0].children[0].children);
-            console.log(tagGroupRepo.findAll(['Ideas'])); // todo: remove this
+        idb.loadIndexedDB({
+            success: function () {
+                chrome.bookmarks.getTree(function (tree) {
+                    loadBookmarks(tree[0].children[0].children);
+                });
+            }
         });
     },
     bookmarkRepo: bookmarkRepo,
