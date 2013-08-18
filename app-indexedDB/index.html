@@ -1,2 +1,25 @@
-<script src ="js/lib/cajon.js"></script>
-<script src ="js/app.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookmark Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/ui.css" rel="stylesheet" media="screen">
+    <script src ="js/lib/cajon.js"></script>
+    <script src ="js/app.js"></script>
+</head>
+<body>
+<div class="bookmark-popup">
+<div ng-controller="ActionButtonsCtrl">
+    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    <button type="button" class="btn btn-primary btn-group-vertical" ng-click="loadBookmarks()">
+        Load Bookmarks from Chrome
+    </button>
+    <button type="button" class="btn btn-primary btn-group-vertical">
+        Open Bookmark Manager
+    </button>
+</div>
+</div>
+</body>
+</html>

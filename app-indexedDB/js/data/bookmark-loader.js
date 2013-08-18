@@ -24,18 +24,28 @@ window.findTagGroup = function (tags) {
 
 }
 
-function loadBookmarks(bookmarkTreeNodes) {
+function loadBookmarks(bookmarkTreeNodes, op) {
     var results = bookmarkParser.parseChromeBookmarks(bookmarkTreeNodes),
         bookmarks = results.bookmarks,
         tagGroups = results.tagGroups,
+        newBookmarkCount = bookmarks.length,
         newTagGroupCount = tagGroups.length,
-        persistedTagGroupCount = 0;
+        persistedTagGroupCount = 0,
+        persistedBookmarkCount = 0;
 
     function persistBookmarks() {
         _.each(bookmarks, function (bookmark) {
             var tags = bookmark.tags;
             delete bookmark.tags;
-            bookmarkRepo.create(bookmark, tags, {});
+            bookmarkRepo.create(bookmark, tags, {
+                success: function () {
+                    persistedBookmarkCount++;
+                    if (persistedBookmarkCount === newBookmarkCount) {
+                        op.success();
+                    }
+                },
+                failure: op.failure
+            });
         });
     }
     _.each(tagGroups, function (tags) {
@@ -51,20 +61,22 @@ function loadBookmarks(bookmarkTreeNodes) {
 }
 
 module.exports = {
-    loadChromeBookmarks: function (bookmarkTreeNodes) {
+    loadChromeBookmarks: function (bookmarkTreeNodes, op) {
         idb.loadIndexedDB({
             success: function () {
-                loadBookmarks(bookmarkTreeNodes);
-            }
+                loadBookmarks(bookmarkTreeNodes, op);
+            },
+            failure: op.failure
         });
     },
-    loadBookmarksFromChrome: function () {
+    loadBookmarksFromChrome: function (op) {
         idb.loadIndexedDB({
             success: function () {
                 chrome.bookmarks.getTree(function (tree) {
-                    loadBookmarks(tree[0].children[0].children);
+                    loadBookmarks(tree[0].children[0].children, op);
                 });
-            }
+            },
+            failure: op.failure
         });
     },
     bookmarkRepo: bookmarkRepo,

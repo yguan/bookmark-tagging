@@ -1,0 +1,11 @@
+.bookmark-popup {
+    width:300px;
+    height: 300px;
+    width: 100%;
+    text-align: center;
+}
+
+.bookmark-popup .btn-group-vertical {
+    width: 250px;
+    margin: 5px 0 5px 0;
+}

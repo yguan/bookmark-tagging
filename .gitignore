@@ -170,3 +170,6 @@ node_modules/
 
 # Packaging
 app-built/
+
+# Angular JS
+**/bower_components/
