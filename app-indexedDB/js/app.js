@@ -13,11 +13,14 @@ require([
     'lib/jquery',
     '../bootstrap/js/bootstrap.min',
     '../angular/angular',
-    '../angular/ui-bootstrap-tpls',
-    'view/all-views'
+    '../angular/ui-bootstrap-tpls'
 ], function() {
-    var allViews = require('view/all-views');
-    allViews.init();
+    require([
+        'data/bookmark-loader',
+        'view/all-views'
+    ], function(loader, views) {
+        views.init();
+    });
 
 //    if (chrome.bookmarks) {
 //        // for chrome extension
