@@ -1,5 +1,12 @@
 var bookmarkLoader = require('data/bookmark-loader');
 
+function hideMsgAfterward($scope) {
+    setTimeout(function () {
+        $scope.alerts = [];
+        $scope.$apply();
+    }, 2000);
+}
+
 module.exports = {
     name: 'ActionButtonsCtrl',
     controller: function($scope) {
@@ -8,6 +15,7 @@ module.exports = {
                 $scope.alerts = [{ type: 'success', msg: msg || 'Loaded bookmarks successfully.' }];
                 $scope.loadBtn.disabled = false;
                 $scope.$apply();
+                hideMsgAfterward($scope);
             },
             failure: function (msg) {
                 $scope.alerts = [{ type: 'error', msg: msg || 'Failed to load all bookmarks.' }];
