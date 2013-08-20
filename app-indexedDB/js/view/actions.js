@@ -8,7 +8,7 @@ function hideMsgAfterward($scope) {
 }
 
 module.exports = {
-    name: 'ActionButtonsCtrl',
+    name: 'ActionsCtrl',
     controller: function($scope) {
         var op = {
             success: function (msg) {

@@ -1,4 +1,4 @@
-var bookmarkLoader = require('view/chrome-action');
+var actions = require('view/actions');
 
 function registerController(app, name, controller) {
     app.controller(name, ['$scope', '$dialog', controller]);
@@ -8,8 +8,8 @@ function configViewRouting(app) {
     app.config(['$routeProvider', function($routeProvider) {
         $routeProvider
             .when('/bookmark-manager', {templateUrl: '/js/view/bookmark-manager.html', controller: 'UsersCtrl'})
-            .when('/bookmark-popup', {templateUrl: '/js/view/bookmark-popup.html', controller: 'ActionButtonsCtrl'})
-            .otherwise({redirectTo: '/bookmark-popup'});
+            .when('/actions', {templateUrl: '/js/view/actions.html', controller: 'ActionsCtrl'})
+            .otherwise({redirectTo: '/actions'});
     }]);
 }
 
@@ -19,7 +19,7 @@ module.exports = {
             var bookmarkApp = angular.module('bookmark', ['ui.bootstrap']);
 
             configViewRouting(bookmarkApp);
-            registerController(bookmarkApp, bookmarkLoader.name, bookmarkLoader.controller);
+            registerController(bookmarkApp, actions.name, actions.controller);
 
             angular.bootstrap(document, ['bookmark']);
         });
