@@ -7,7 +7,7 @@ function registerController(app, name, controller) {
 function configViewRouting(app) {
     app.config(['$routeProvider', function($routeProvider) {
         $routeProvider
-            .when('/bookmark-manager', {templateUrl: '/js/view/bookmark-manager.html', controller: 'UsersCtrl'})
+            .when('/search', {templateUrl: '/js/view/search.html', controller: 'SearchCtrl'})
             .when('/actions', {templateUrl: '/js/view/actions.html', controller: 'ActionsCtrl'})
             .otherwise({redirectTo: '/actions'});
     }]);
