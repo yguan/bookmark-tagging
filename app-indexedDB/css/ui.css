@@ -1,4 +1,4 @@
-.bookmark-popup {
+.bookmark-actions {
     width:170px;
     height: 150px;
     width: 100%;
@@ -6,7 +6,21 @@
     text-align: center;
 }
 
-.bookmark-popup .btn-group-vertical {
+.bookmark-actions .btn-group-vertical {
     width: 145px;
     margin: 5px 0 5px 0;
+}
+
+.bookmark-add {
+    width: 300px;
+    height: 100px;
+    padding: 10px;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+.tag-default {
+    background-color: #3a87ad;
+    font-size: 12px;
 }

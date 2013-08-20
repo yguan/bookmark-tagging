@@ -13,7 +13,9 @@ require([
     'lib/jquery',
     '../bootstrap/js/bootstrap.min',
     '../angular/angular',
-    '../angular/ui-bootstrap-tpls'
+    '../angular/ui-bootstrap-tpls',
+    '../angular/bootstrap-tagsinput',
+    '../angular/bootstrap-tagsinput-angular'
 ], function() {
     require([
         'data/bookmark-loader',

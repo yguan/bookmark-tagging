@@ -1,14 +1,12 @@
-<div class="bookmark-popup">
-    <div ng-controller="ActionsCtrl">
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-        <button type="button" class="btn btn-primary btn-group-vertical">
-            Add
-        </button>
-        <button type="button" class="btn btn-primary btn-group-vertical">
-            Search
-        </button>
-        <button type="button" class="btn btn-primary btn-group-vertical" ng-click="loadBookmarks()" ng-disabled="loadBtn.disabled">
-            Load from Chrome
-        </button>
-    </div>
+<div ng-controller="ActionsCtrl" class="bookmark-actions">
+    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    <button type="button" class="btn btn-primary btn-group-vertical" ng-click="go('/add')">
+        Add
+    </button>
+    <button type="button" class="btn btn-primary btn-group-vertical" >
+        Search
+    </button>
+    <button type="button" class="btn btn-primary btn-group-vertical" ng-click="loadBookmarks()" ng-disabled="loadBtn.disabled">
+        Load from Chrome
+    </button>
 </div>

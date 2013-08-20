@@ -1,0 +1,9 @@
+<div ng-controller="AddCtrl" class="bookmark-add">
+    <bootstrap-tagsinput
+        ng-model="selectedTags"
+        typeahead-source="getTags"
+        tagclass="label tag-default">
+    </bootstrap-tagsinput>
+
+    <div>{{selectedTags}}</div>
+</div>

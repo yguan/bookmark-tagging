@@ -9,7 +9,7 @@ function hideMsgAfterward($scope) {
 
 module.exports = {
     name: 'ActionsCtrl',
-    controller: function($scope) {
+    controller: function($scope, $location) {
         var op = {
             success: function (msg) {
                 $scope.alerts = [{ type: 'success', msg: msg || 'Loaded bookmarks successfully.' }];
@@ -26,6 +26,10 @@ module.exports = {
         $scope.alerts = [];
         $scope.loadBtn ={
             disabled: false
+        };
+
+        $scope.go = function (path) {
+            $location.path(path);
         };
 
         $scope.loadBookmarks = function () {
