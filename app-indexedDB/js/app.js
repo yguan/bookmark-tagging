@@ -21,6 +21,7 @@ require([
         'data/bookmark-loader',
         'view/all-views'
     ], function(loader, views) {
+        loader.init();
         views.init();
     });
 

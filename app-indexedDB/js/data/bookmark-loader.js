@@ -61,6 +61,9 @@ function loadBookmarks(bookmarkTreeNodes, op) {
 }
 
 module.exports = {
+    init: function () {
+        idb.loadIndexedDB();
+    },
     loadChromeBookmarks: function (bookmarkTreeNodes, op) {
         idb.loadIndexedDB({
             success: function () {

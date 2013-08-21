@@ -1,9 +1,13 @@
 <div ng-controller="AddCtrl" class="bookmark-add">
+    <input type="text" class="fluid" ng-model="title"/>
+    <br />
     <bootstrap-tagsinput
         ng-model="selectedTags"
         typeahead-source="getTags"
         tagclass="label tag-default">
     </bootstrap-tagsinput>
 
+    <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+    <button type="button" class="btn btn-primary" ng-click="remove()">Remove</button>
     <div>{{selectedTags}}</div>
 </div>

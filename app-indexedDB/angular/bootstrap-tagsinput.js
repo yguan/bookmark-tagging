@@ -191,6 +191,7 @@
         makeOptionFunction(typeahead, 'source');
 
         self.$input.typeahead({
+          items: 10000,
           source: function (query, process) {
             function processItems(items) {
               var texts = [];

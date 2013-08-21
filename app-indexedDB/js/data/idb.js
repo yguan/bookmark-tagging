@@ -33,10 +33,12 @@ var db = require('lib/db'),
                 }
             })
             .done(function (dbInstance) {
-                    me.db = dbInstance;
-                op.success();
+                me.db = dbInstance;
+                op && op.success && op.success(dbInstance);
             })
-            .fail(op.failure);
+            .fail(function (error) {
+                op && op.failure && op.failure(error);
+            });
         },
         db: null,
         create: function (dbKey, item, op) {
@@ -78,6 +80,17 @@ var db = require('lib/db'),
         update: function (dbKey, item, op) {
             idb.db[dbKey]
                 .update( item )
+                .done(op.success)
+                .fail(op.failure);
+        },
+        each: function (dbKey, eachFn, op) {
+            idb.db[dbKey]
+                .query()
+                .filter(function (item) {
+                    eachFn(item);
+                    return false;
+                })
+                .execute()
                 .done(op.success)
                 .fail(op.failure);
         }

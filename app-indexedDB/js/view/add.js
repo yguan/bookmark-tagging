@@ -1,10 +1,22 @@
+var bookmarkRepo = require('data/bookmark-repository'),
+    tagGroupRepo = require('data/tag-group-repository');
+
 module.exports = {
     name: 'AddCtrl',
     controller: function($scope) {
-        $scope.selectedTags = ['a'];
+
+        tagGroupRepo.loadAllTagsToCache({});
 
         $scope.getTags = function () {
-            return ['ui', 'tag'];
+            return tagGroupRepo.getAllTags();
+        };
+
+        $scope.save = function () {
+
+        };
+
+        $scope.remove = function () {
+
         };
     }
 };
