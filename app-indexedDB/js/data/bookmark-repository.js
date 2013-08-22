@@ -18,7 +18,7 @@ module.exports = {
             idb.create(dbKey, bookmark, op);
         }
     },
-    add: function (bookmark) {
+    add: function (bookmark, op) {
         idb.add(dbKey, bookmark, 'url', op);
     },
     findByKey: function (key, value, op) {

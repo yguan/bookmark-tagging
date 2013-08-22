@@ -17,6 +17,7 @@ var db = require('lib/db'),
                         },
                         indexes: {
                             title: {},
+                            url: {},
                             dateAdded: {},
                             tagGroupId: {}
                         }
@@ -49,7 +50,7 @@ var db = require('lib/db'),
 
             me.findExact(dbKey, uniqueItemKey, item[uniqueItemKey], {
                 success: function (results) {
-                    if (results && results.length === 1) {
+                    if (results && results.length > 0) {
                         op.success(results[0]);
                     } else {
                         me.create(dbKey, item, op);
