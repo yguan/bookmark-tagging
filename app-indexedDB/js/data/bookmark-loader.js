@@ -61,25 +61,18 @@ function loadBookmarks(bookmarkTreeNodes, op) {
 }
 
 module.exports = {
+    /**
+     * init should be called first and wait for loadIndexedDB completed before calling other methods
+     */
     init: function () {
         idb.loadIndexedDB();
     },
     loadChromeBookmarks: function (bookmarkTreeNodes, op) {
-        idb.loadIndexedDB({
-            success: function () {
-                loadBookmarks(bookmarkTreeNodes, op);
-            },
-            failure: op.failure
-        });
+        loadBookmarks(bookmarkTreeNodes, op);
     },
     loadBookmarksFromChrome: function (op) {
-        idb.loadIndexedDB({
-            success: function () {
-                chrome.bookmarks.getTree(function (tree) {
-                    loadBookmarks(tree[0].children[0].children, op);
-                });
-            },
-            failure: op.failure
+        chrome.bookmarks.getTree(function (tree) {
+            loadBookmarks(tree[0].children[0].children, op);
         });
     },
     bookmarkRepo: bookmarkRepo,
