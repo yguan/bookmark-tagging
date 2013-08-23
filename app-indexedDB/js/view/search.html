@@ -1,11 +1,10 @@
-<div class="bookmark-popup">
-    <div ng-controller="ActionButtonsCtrl">
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-        <button type="button" class="btn btn-primary btn-group-vertical" ng-click="loadBookmarks()" ng-disabled="loadBtn.disabled">
-            Load Bookmarks from Chrome
-        </button>
-        <button type="button" class="btn btn-primary btn-group-vertical">
-            Open Bookmark Manager
-        </button>
-    </div>
+<div ng-controller="SearchCtrl" class="bookmark-search">
+    <label>Tags:</label>
+    <bootstrap-tagsinput
+            ng-model="selectedTags"
+            typeahead-source="getTags"
+            tagclass="label tag-default">
+    </bootstrap-tagsinput>
+    <button type="button" class="btn btn-primary" ng-click="search()">Search</button>
+    <div class="grid" ng-grid="gridOptions"></div>
 </div>

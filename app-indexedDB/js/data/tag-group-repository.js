@@ -36,10 +36,12 @@ module.exports = {
             }
         }
     },
-    loadAllTagsToCache: function (op) {
-        var me = this;
-        idb.each(dbKey, function (tagGroup) {
-            me.addTagsToCache(tagGroup.tags);
-        }, op);
+    loadAllTagsToCache: function (op, reload) {
+        if (Object.keys(this.allTagsCache).length === 0 || reload) {
+            var me = this;
+            idb.each(dbKey, function (tagGroup) {
+                me.addTagsToCache(tagGroup.tags);
+            }, op);
+        }
     }
 };

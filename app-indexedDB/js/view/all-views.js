@@ -1,5 +1,6 @@
 var actions = require('view/actions'),
-    add = require('view/add');
+    add = require('view/add'),
+    search = require('view/search');
 
 function registerController(app, name, controller) {
     app.controller(name, ['$scope', '$location', controller]);
@@ -18,11 +19,12 @@ function configViewRouting(app) {
 module.exports = {
     init: function () {
         angular.element(document).ready(function() {
-            var bookmarkApp = angular.module('bookmark', ['ui.bootstrap', 'bootstrap-tagsinput']);
+            var bookmarkApp = angular.module('bookmark', ['ui.bootstrap', 'bootstrap-tagsinput', 'ngGrid']);
 
             configViewRouting(bookmarkApp);
             registerController(bookmarkApp, actions.name, actions.controller);
             registerController(bookmarkApp, add.name, add.controller);
+            registerController(bookmarkApp, search.name, search.controller);
 
             angular.bootstrap(document, ['bookmark']);
         });

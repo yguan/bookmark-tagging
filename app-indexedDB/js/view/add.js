@@ -38,6 +38,10 @@ module.exports = {
             return tagGroupRepo.getAllTags();
         };
 
+        $scope.go = function (path) {
+            $location.path(path);
+        };
+
         $scope.save = function () {
             tagGroupRepo.add($scope.selectedTags, {
                 success: function (tagGroup) {
@@ -48,7 +52,7 @@ module.exports = {
                         tagGroupId: tagGroup.id
                     }, {
                         success: function () {
-                            $location.path('/actions');
+                            go('/actions');
                         },
                         failure: function (results) {
                             console.log(results);
@@ -56,10 +60,6 @@ module.exports = {
                     });
                 }
             })
-        };
-
-        $scope.remove = function () {
-
         };
     }
 };
