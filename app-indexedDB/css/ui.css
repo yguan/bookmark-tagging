@@ -63,6 +63,10 @@ a {
     text-overflow: ellipsis;
 }
 
+.ng-cell {
+    padding: 5px;
+}
+
 ::-webkit-scrollbar {
     width: 12px;
 }

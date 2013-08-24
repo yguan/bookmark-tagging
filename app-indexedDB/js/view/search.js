@@ -1,8 +1,8 @@
 var bookmarkRepo = require('data/bookmark-repository'),
     tagGroupRepo = require('data/tag-group-repository'),
     cellTemplate = {
-        url: '<a href="{{row.getProperty(col.field)}}" target="_blank">{{row.getProperty(col.field)}}</a>'
-    } ;
+        url: '<div class="ngCellText"><a href="{{row.getProperty(col.field)}}" target="_blank">{{row.getProperty(col.field)}}</a></div>'
+    };
 
 module.exports = {
     name: 'SearchCtrl',
@@ -25,9 +25,10 @@ module.exports = {
             enableCellSelection: true,
             enableRowSelection: false,
             enableCellEditOnFocus: false,
+            enableColumnResize: true,
             columnDefs: [
-                {field: 'title', displayName: 'Title'},
-                {field: 'url', displayName: 'Link', cellTemplate: cellTemplate.url }
+                {field: 'title', displayName: 'Title', width: 580},
+                {field: 'url', displayName: 'Link', cellTemplate: cellTemplate.url}
             ]
         };
 
