@@ -1,0 +1,16 @@
+<div ng-controller="AddCtrl" class="bookmark-add">
+    <label>Title:</label>
+    <input type="text" class="fluid" ng-model="title"/><br />
+    <label>Tags:</label>
+    <bootstrap-tagsinput
+            ng-model="selectedTags"
+            typeahead-source="getTags"
+            tagclass="label tag-default">
+    </bootstrap-tagsinput>
+    <br />
+    <label>Url:</label>
+    <input type="text" class="fluid" ng-model="url"/>
+    <br />
+    <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+    <button type="button" class="btn btn-primary" ng-click="go('/search')">Go to search</button>
+</div>

@@ -1,28 +1,5 @@
 var db = require('lib/db'),
     idb = {
-        schema: {
-            bookmark: {
-                key: {
-                    keyPath: 'id',
-                    autoIncrement: true
-                },
-                indexes: {
-                    title: {},
-                    url: {},
-                    dateAdded: {},
-                    tagGroupId: {}
-                }
-            },
-            tagGroup: {
-                key: {
-                    keyPath: 'id',
-                    autoIncrement: true
-                },
-                indexes: {
-                    tags: { unique: true }
-                }
-            }
-        },
         loadIndexedDB: function (op) {
             var me = this;
 
@@ -32,7 +9,29 @@ var db = require('lib/db'),
             db.open({
                 server: 'app-db',
                 version: 1,
-                schema: me.schema
+                schema: {
+                    bookmark: {
+                        key: {
+                            keyPath: 'id',
+                            autoIncrement: true
+                        },
+                        indexes: {
+                            title: {},
+                            url: {},
+                            dateAdded: {},
+                            tagGroupId: {}
+                        }
+                    },
+                    tagGroup: {
+                        key: {
+                            keyPath: 'id',
+                            autoIncrement: true
+                        },
+                        indexes: {
+                            tags: { unique: true }
+                        }
+                    }
+                }
             })
             .done(function (dbInstance) {
                 me.db = dbInstance;
@@ -95,30 +94,6 @@ var db = require('lib/db'),
                 .execute()
                 .done(op.success)
                 .fail(op.failure);
-        },
-        export: function (op) {
-            var dbKeys = Object.keys(this.schema),
-                data = {},
-                dbKeysCount = dbKeys.length,
-                dataKeyCount = 0,
-                addData = function (key, items) {
-                    data[key] = items;
-                    dataKeyCount++;
-
-                    if (dbKeysCount === dataKeyCount) {
-                        op.success(data);
-                    }
-                };
-
-            _.each(dbKeys, function (key) {
-                idb.db[key]
-                    .query()
-                    .all()
-                    .execute()
-                    .done(function (items) {
-                        addData(key, items);
-                    }).fail(op.failure);
-            });
         }
     };
 

@@ -13,7 +13,6 @@ module.exports = {
                     var activeTab = arrayOfTabs[0];
                     $scope.url = activeTab.url;
                     $scope.title = activeTab.title;
-                    $scope.$apply();
                 });
             } else {
                 $scope.url = window.location.href;

@@ -1,4 +1,6 @@
-var bookmarkLoader = require('data/bookmark-loader');
+var bookmarkLoader = require('data/bookmark-loader'),
+    idb = require('data/idb'),
+    fileSaver = require('lib/FileSaver');
 
 function hideMsgAfterward($scope) {
     setTimeout(function () {
@@ -10,23 +12,34 @@ function hideMsgAfterward($scope) {
 module.exports = {
     name: 'ActionsCtrl',
     controller: function($scope, $location) {
-        var op = {
-            success: function (msg) {
-                $scope.alerts = [{ type: 'success', msg: msg || 'Loaded bookmarks successfully.' }];
-                $scope.loadBtn.disabled = false;
-                $scope.$apply();
-                hideMsgAfterward($scope);
+        var loadBookmarksOp = {
+                success: function (msg) {
+                    $scope.alerts = [{ type: 'success', msg: msg || 'Loaded bookmarks successfully.' }];
+                    $scope.loadBtn.disabled = false;
+                    $scope.$apply();
+                    hideMsgAfterward($scope);
+                },
+                failure: function (msg) {
+                    $scope.alerts = [{ type: 'error', msg: msg || 'Failed to load all bookmarks.' }];
+                    $scope.$apply();
+                }
             },
-            failure: function (msg) {
-                $scope.alerts = [{ type: 'error', msg: msg || 'Failed to load all bookmarks.' }];
-                $scope.$apply();
-            }
-        }
+            exportOp = {
+                success: function (msg) {
+                    $scope.alerts = [{ type: 'success', msg: msg || 'Exported bookmarks successfully.' }];
+                    $scope.exportBtn.disabled = false;
+                    $scope.$apply();
+                    hideMsgAfterward($scope);
+                },
+                failure: function (msg) {
+                    $scope.alerts = [{ type: 'error', msg: msg || 'Failed to export bookmarks.' }];
+                    $scope.$apply();
+                }
+            };
 
         $scope.alerts = [];
-        $scope.loadBtn ={
-            disabled: false
-        };
+        $scope.loadBtn = { disabled: false };
+        $scope.exportBtn = { disabled: false };
 
         $scope.go = function (path) {
             $location.path(path);
@@ -37,13 +50,25 @@ module.exports = {
             $scope.alerts = [{ type: 'info', msg: 'Loading bookmarks from Chrome' }];
             if (chrome.bookmarks) {
                 // for chrome extension
-                bookmarkLoader.loadBookmarksFromChrome(op);
+                bookmarkLoader.loadBookmarksFromChrome(loadBookmarksOp);
             } else {
                 // for regular web page
                 require(['data/bookmarks-json'], function(chromeBookmarks) {
-                    bookmarkLoader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children, op);
+                    bookmarkLoader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children, loadBookmarksOp);
                 });
             }
+        }
+
+        $scope.exportDB = function () {
+            $scope.exportBtn.disabled = true;
+            $scope.alerts = [{ type: 'info', msg: 'Exporting bookmarks' }];
+            idb.export({
+                success: function (data) {
+                    var blog = new Blob([JSON.stringify(data)], {type: 'text/plain;charset=utf-8'})
+                    fileSaver.saveAs(blog, 'bookmarks.json');
+                    exportOp.success();
+                }
+            }, exportOp);
         }
 
         $scope.addAlert = function() {
@@ -53,8 +78,6 @@ module.exports = {
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
-
-
     }
 };
 
