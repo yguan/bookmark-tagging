@@ -11,12 +11,12 @@ require([
     'lib/lodash.underscore',
     'data/bookmarks-json',
     'lib/jquery',
-    '../bootstrap/js/bootstrap.min',
-    '../angular/angular',
-    '../angular/ui-bootstrap-tpls',
-    '../angular/bootstrap-tagsinput',
-    '../angular/bootstrap-tagsinput-angular',
-    '../angular/ng-grid'
+    'lib/bootstrap/bootstrap',
+    'lib/angular/angular',
+    'lib/angular/ui-bootstrap-tpls',
+    'lib/angular/bootstrap-tagsinput',
+    'lib/angular/bootstrap-tagsinput-angular',
+    'lib/angular/ng-grid'
 ], function() {
     require([
         'data/bookmark-loader',

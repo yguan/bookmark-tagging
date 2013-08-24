@@ -13,7 +13,7 @@
 
     //Comment this line out to get
     //minified content.
-    optimize: 'none',
+//    optimize: 'none',
 
     //Uncomment this line if you want the
     //built file to use eval with sourceURL
