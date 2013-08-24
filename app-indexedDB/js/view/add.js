@@ -1,38 +1,28 @@
 var bookmarkRepo = require('data/bookmark-repository'),
     tagGroupRepo = require('data/tag-group-repository');
 
-function getActiveTab(op) {
-    console.log(chrome.tabs);
-    if (chrome.tabs) {
-        chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
-            // since only one tab should be active and in the current window at once
-            // the return variable should only have one entry
-            var activeTab = arrayOfTabs[0];
-            op.success(activeTab);
-        });
-    } else {
-        op.failure();
-    }
-}
-
 module.exports = {
     name: 'AddCtrl',
     controller: function($scope, $location) {
 
-        tagGroupRepo.loadAllTagsToCache({});
-
-        getActiveTab({
-            success: function (tab) {
-                $scope.url = tab.url;
-                $scope.title = tab.title;
-                $scope.$apply();
-            },
-            failure: function () {
+        function getActiveTab() {
+            if (chrome.tabs) {
+                chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
+                    // since only one tab should be active and in the current window at once
+                    // the return variable should only have one entry
+                    var activeTab = arrayOfTabs[0];
+                    $scope.url = activeTab.url;
+                    $scope.title = activeTab.title;
+                });
+            } else {
                 $scope.url = window.location.href;
                 $scope.title = window.document.title;
-                $scope.$apply();
             }
-        });
+        }
+
+        tagGroupRepo.loadAllTagsToCache({});
+
+        getActiveTab();
 
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
