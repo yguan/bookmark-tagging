@@ -31,9 +31,8 @@ module.exports = {
             ]
         };
 
-        $scope.search = function () {
+        $scope.searchTags = function () {
             $scope.gridData = [];
-//            $scope.$apply();
 
             tagGroupRepo.findAll($scope.selectedTags, {
                 success: function (tagGroups) {
@@ -49,6 +48,20 @@ module.exports = {
                         });
                     });
 
+                }
+            })
+        };
+
+        $scope.searchTitles = function () {
+            $scope.gridData = [];
+
+            bookmarkRepo.findByTitle($scope.selectedTags, {
+                success: function (bookmarks) {
+                    $scope.gridData = $scope.gridData.concat(bookmarks);
+                    $scope.$apply();
+                },
+                failure: function (results) {
+                    console.log(results);
                 }
             })
         };

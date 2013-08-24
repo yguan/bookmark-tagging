@@ -1,10 +1,11 @@
 <div ng-controller="SearchCtrl" class="bookmark-search">
-    <label>Tags:</label>
+    <label>Keywords:</label>
     <bootstrap-tagsinput
             ng-model="selectedTags"
             typeahead-source="getTags"
             tagclass="label tag-default">
     </bootstrap-tagsinput>
-    <button type="button" class="btn btn-primary" ng-click="search()">Search</button>
+    <button type="button" class="btn btn-primary" ng-click="searchTags()">Search tags</button>
+    <button type="button" class="btn btn-primary" ng-click="searchTitles()">Search titles</button>
     <div class="grid" ng-grid="gridOptions"></div>
 </div>

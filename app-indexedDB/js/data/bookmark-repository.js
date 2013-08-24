@@ -24,6 +24,21 @@ module.exports = {
     findByKey: function (key, value, op) {
         idb.findAllByKey(dbKey, key, value, op);
     },
+    findByTitle: function (keywords, op) {
+        var lowercaseKeywords = _.map(keywords, function(keyword){ return keyword.toLowerCase(); }),
+            keywordCount = keywords.length;
+
+        idb.findAll(dbKey, function (bookmark) {
+            var matchedCount = 0,
+                title = bookmark.title.toLowerCase();
+            _.each(lowercaseKeywords, function (keyword) {
+                if (title.indexOf(keyword) !== -1) {
+                    matchedCount++;
+                }
+            });
+            return keywordCount === matchedCount;
+        }, op);
+    },
     update: function (bookmark, op) {
         idb.update(dbKey, bookmark, op);
     },
