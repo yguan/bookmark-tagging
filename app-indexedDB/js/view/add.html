@@ -10,6 +10,6 @@
     <label>Url:</label>
     <input type="text" ng-model="url"/>
     <br />
-    <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="saveBtn.disabled">Save</button>
     <button type="button" class="btn btn-primary" ng-click="go('/search')">Go to search</button>
 </div>

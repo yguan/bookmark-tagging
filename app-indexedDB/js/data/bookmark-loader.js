@@ -35,9 +35,9 @@ function loadBookmarks(bookmarkTreeNodes, op) {
 
     function persistBookmarks() {
         _.each(bookmarks, function (bookmark) {
-            var tags = bookmark.tags;
+            var lowercaseTags = _.map(bookmark.tags, function(str){ return str.toLowerCase(); });
             delete bookmark.tags;
-            bookmarkRepo.create(bookmark, tags, {
+            bookmarkRepo.create(bookmark, lowercaseTags, {
                 success: function () {
                     persistedBookmarkCount++;
                     if (persistedBookmarkCount === newBookmarkCount) {
@@ -49,7 +49,8 @@ function loadBookmarks(bookmarkTreeNodes, op) {
         });
     }
     _.each(tagGroups, function (tags) {
-        tagGroupRepo.add(tags,{
+        var lowercaseTags = _.map(tags, function(str){ return str.toLowerCase(); });
+        tagGroupRepo.add(lowercaseTags,{
             success: function () {
                 persistedTagGroupCount++;
                 if (persistedTagGroupCount === newTagGroupCount) {
