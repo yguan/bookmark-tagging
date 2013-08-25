@@ -1,6 +1,5 @@
-.input-block-level, .bootstrap-tagsinput {
-    display: block;
-    width: 100%;
+.view-container {
+    overflow: hidden;
 }
 
 .bookmark-actions {
@@ -17,9 +16,13 @@
 }
 
 .bookmark-add {
-    width: 600px;
-    height: 200px;
-    padding: 10px;
+    width: 650px;
+    height: 250px;
+    margin: 10px;
+}
+
+.bookmark-add input {
+    width: 620px !important;
 }
 
 .bookmark-search {
@@ -29,23 +32,18 @@
 }
 
 .bookmark-search .grid {
-    width: 780px;
+    width: 790px;
     height: 500px;
     margin-top: 10px;
 }
 
-.bookmark-search .bootstrap-tagsinput {
-    width: 765px;
+.bookmark-search input {
+    width: 775px !important;
 }
-
 
 .tag-default {
     background-color: #3a87ad;
     font-size: 12px;
-}
-
-.fluid {
-    width: 100%;
 }
 
 .typeahead {
@@ -73,7 +71,6 @@ a {
 .ng-cell {
     padding: 5px;
 }
-
 
 ::-webkit-scrollbar {
     width: 12px;
