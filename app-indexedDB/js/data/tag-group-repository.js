@@ -46,5 +46,29 @@ module.exports = {
     },
     get: function (id, op) {
         idb.get(dbKey, id, op);
+    },
+    rename: function (oldTag, newTag, op) {
+        var me = this,
+            i,
+            len,
+            cache = me.allTagsCache,
+            updateTagGroup = function (tagGroups) {
+                _.each(tagGroups, function (tagGroup) {
+                    tagGroup.tags[_.indexOf(tagGroup.tags, oldTag)] = newTag;
+                });
+            };
+
+        delete cache[oldTag];
+        cache[newTag] = true;
+
+        idb.findAll(dbKey, function (tagGroup) {
+            return _.contains(tagGroup.tags, oldTag);
+        }, {
+            success: function (tagGroups) {
+                updateTagGroup(tagGroups);
+                idb.updateAll(dbKey, tagGroups, op);
+            },
+            failure: op.failure
+        });
     }
 };

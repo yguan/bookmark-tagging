@@ -23,6 +23,19 @@
     margin: 10px;
 }
 
+.bookmark-rename {
+    width: 320px;
+    margin: 10px;
+}
+
+.bookmark-rename input {
+    width: 305px;
+}
+
+.bookmark-rename .typeahead {
+    max-height: 100px;
+}
+
 .bookmark-add input, .bookmark-add .bootstrap-tagsinput {
     width: 635px;
 }

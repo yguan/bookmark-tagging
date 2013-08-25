@@ -153,6 +153,23 @@ var db = require('lib/db'),
                 }
             }
             addNext();
+        },
+        updateAll: function (dbKey, items, op) {
+            var i = 0,
+                len = items.length,
+                db = idb.db[dbKey];
+
+            function updateNext() {
+                if (i < len) {
+                    db.update(items[i]).done(function () {
+                        ++i;
+                        updateNext();
+                    }).fail(op.failure);
+                } else {   // complete
+                    op.success();
+                }
+            }
+            updateNext();
         }
     };
 
