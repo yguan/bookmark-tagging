@@ -43,6 +43,14 @@ var db = require('lib/db'),
             });
         },
         db: null,
+        get: function (dbKey, id, op) {
+            idb.db[dbKey]
+                .get(id)
+                .done(function (item){
+                    op.success(item);
+                })
+                .fail(op.failure);
+        },
         create: function (dbKey, item, op) {
             idb.db[dbKey].add(item).done(function (results) {
                 op.success(results[0]);

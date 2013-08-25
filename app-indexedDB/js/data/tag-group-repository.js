@@ -43,5 +43,8 @@ module.exports = {
                 me.addTagsToCache(tagGroup.tags);
             }, op);
         }
+    },
+    get: function (id, op) {
+        idb.get(dbKey, id, op);
     }
 };

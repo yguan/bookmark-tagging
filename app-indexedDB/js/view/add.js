@@ -10,10 +10,28 @@ module.exports = {
                 chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
                     // since only one tab should be active and in the current window at once
                     // the return variable should only have one entry
-                    var activeTab = arrayOfTabs[0];
-                    $scope.url = activeTab.url;
+                    var activeTab = arrayOfTabs[0],
+                        url = activeTab.url;
+
+                    $scope.url = url;
                     $scope.title = activeTab.title;
                     $scope.$apply();
+
+                    bookmarkRepo.findByKey('url', url, {
+                        success: function (results) {
+                            var bookmark = results[0];
+                            if (results.length > 0) {
+                                $scope.title = bookmark.title;
+
+                                tagGroupRepo.get(bookmark.tagGroupId, {
+                                    success: function (tagGroup) {
+                                        $scope.selectedTags = tagGroup.tags;
+                                        $scope.$apply();
+                                    }
+                                })
+                            }
+                        }
+                    });
                 });
             } else {
                 $scope.url = window.location.href;
