@@ -47,14 +47,19 @@ module.exports = {
             return tagGroupRepo.getAllTags();
         };
 
-        $scope.saveBtn = { disabled: false };
+        $scope.selectedTags = [];
+        $scope.isSaving = false;
+
+        $scope.isSaveBtnDisabled = function (title, url, selectedTags, isSaving) {
+            return title.length === 0 || url.length === 0 || selectedTags.length === 0 || isSaving;
+        };
 
         $scope.go = function (path) {
             $location.path(path);
         };
 
         $scope.save = function () {
-            $scope.saveBtn.disabled = true;
+            $scope.isSaving = true;
 
             var tags = _.map($scope.selectedTags, function(str){ return str.toLowerCase(); });
             tagGroupRepo.add(tags, {

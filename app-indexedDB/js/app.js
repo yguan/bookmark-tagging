@@ -9,7 +9,7 @@ require.config({
 
 require([
     'lib/lodash.underscore',
-    'data/bookmarks-json',
+//    'data/bookmarks-json',
     'lib/jquery',
     'lib/bootstrap/bootstrap',
     'lib/angular/angular',

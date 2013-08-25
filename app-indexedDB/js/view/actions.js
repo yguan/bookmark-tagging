@@ -52,12 +52,13 @@ module.exports = {
             if (chrome.bookmarks) {
                 // for chrome extension
                 bookmarkLoader.loadBookmarksFromChrome(loadBookmarksOp);
-            } else {
-                // for regular web page
-                require(['data/bookmarks-json'], function(chromeBookmarks) {
-                    bookmarkLoader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children, loadBookmarksOp);
-                });
             }
+//            else {
+//                // for regular web page
+//                require(['data/bookmarks-json'], function(chromeBookmarks) {
+//                    bookmarkLoader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children, loadBookmarksOp);
+//                });
+//            }
         };
 
         $scope.exportDB = function () {
