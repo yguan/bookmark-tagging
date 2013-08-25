@@ -21,7 +21,6 @@ window.findTagGroup = function (tags) {
             console.log(r);
         }
     });
-
 }
 
 function loadBookmarks(bookmarkTreeNodes, op) {

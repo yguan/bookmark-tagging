@@ -147,7 +147,7 @@ var db = require('lib/db'),
                     db.add(items[i]).done(function () {
                         ++i;
                         addNext();
-                    });
+                    }).fail(op.failure);
                 } else {   // complete
                     op.success();
                 }

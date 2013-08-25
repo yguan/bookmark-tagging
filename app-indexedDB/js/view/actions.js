@@ -76,28 +76,6 @@ module.exports = {
             $scope.uploadBookmarkVisible = true;
         };
 
-//        $scope.onFileSelect = function (content, completed) {
-//            var op = {
-//                success: function (results) {
-//                    if (results.length > 0) {
-//                        $scope.alerts = [{ type: 'success', msg: 'Loaded bookmarks successfully.' }];
-//                        $scope.$apply();
-//                    } else {
-//                        op.failure();
-//                    }
-//                },
-//                failure: function (error) {
-//                    $scope.alerts = [{ type: 'error', msg: 'Failed to load bookmarks' }];
-//                    $scope.$apply();
-//                }
-//            };
-//            if (completed && content.length > 0) {
-//                var data = JSON.parse(content); // Presumed content is a json string!
-//                idb.db.add(data.tagGroup, op);
-//                idb.db.add(data.bookmark, op);
-//            }
-//        };
-
         $scope.onFileSelect = function ($files) {
             $scope.alerts = [{ type: 'info', msg: 'Loading bookmarks.' }];
 
@@ -121,7 +99,6 @@ module.exports = {
                             }
                         },
                         failure: function (error) {
-                            operationCount++;
                             errorCount++;
                             $scope.alerts = [{ type: 'error', msg: 'Failed to load bookmarks' }];
                             $scope.$apply();
@@ -133,14 +110,6 @@ module.exports = {
 
                     idb.addAll('tagGroup', data.tagGroup, op);
                     idb.addAll('bookmark', data.bookmark, op);
-
-//                    _.each(data.tagGroup, function (tagGroup) {
-//                        idb.db['tagGroup'].add(tagGroup).done(op.success).fail(op.failure);
-//                    });
-//
-//                    _.each(data.tagGroup, function (bookmark) {
-//                        idb.db['bookmark'].add(bookmark).done(op.success).fail(op.failure);
-//                    });
                 }
             };
             reader.readAsText(blob);
