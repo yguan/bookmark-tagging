@@ -4,8 +4,6 @@
 
 .bookmark-actions {
     width:250px;
-    height: 180px;
-    width: 100%;
     margin: 5px 0 5px 0;
     text-align: center;
 }
@@ -17,28 +15,28 @@
 
 .bookmark-add {
     width: 650px;
-    height: 250px;
+    height: 230px;
     margin: 10px;
 }
 
-.bookmark-add input {
-    width: 620px !important;
+.bookmark-add input, .bookmark-add .bootstrap-tagsinput {
+    width: 635px;
 }
 
 .bookmark-search {
-    width: 800px;
-    height: 600px;
+    width: 795px;
+    height: 595px;
     padding: 5px 0 0 5px;
 }
 
 .bookmark-search .grid {
     width: 790px;
-    height: 500px;
+    height: 495px;
     margin-top: 10px;
 }
 
-.bookmark-search input {
-    width: 775px !important;
+.bookmark-search .bootstrap-tagsinput {
+    width: 775px;
 }
 
 .tag-default {
