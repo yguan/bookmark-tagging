@@ -35,15 +35,16 @@ module.exports = {
 
         $scope.save = function () {
             tagGroupRepo.add($scope.selectedTags, {
-                success: function (tagGroups) {
+                success: function (tagGroup) {
                     bookmarkRepo.add({
                         title: $scope.title,
                         url: $scope.url,
                         dateAdded: new Date(),
-                        tagGroupId: tagGroups[0].id
+                        tagGroupId: tagGroup.id
                     }, {
                         success: function () {
                             $scope.go('/actions');
+                            $scope.$apply();
                         },
                         failure: function (results) {
                             console.log(results);

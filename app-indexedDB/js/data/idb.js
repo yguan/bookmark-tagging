@@ -44,7 +44,9 @@ var db = require('lib/db'),
         },
         db: null,
         create: function (dbKey, item, op) {
-            idb.db[dbKey].add(item).done(op.success).fail(op.failure);
+            idb.db[dbKey].add(item).done(function (results) {
+                op.success(results[0]);
+            }).fail(op.failure);
         },
         add: function (dbKey, item, uniqueItemKey, op) {
             var me = this;
@@ -52,7 +54,14 @@ var db = require('lib/db'),
             me.findExact(dbKey, uniqueItemKey, item[uniqueItemKey], {
                 success: function (results) {
                     if (results && results.length > 0) {
-                        op.success(results[0]);
+                        var oldItem = results[0];
+                        _.extend(oldItem, item)
+                        me.update(dbKey, oldItem, {
+                            success: function (results) {
+                                op.success(results[0]);
+                            },
+                            failure: op.failure
+                        });
                     } else {
                         me.create(dbKey, item, op);
                     }
