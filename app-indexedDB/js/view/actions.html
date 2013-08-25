@@ -12,4 +12,10 @@
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="exportDB()" ng-disabled="exportBtn.disabled">
         Export
     </button>
+    <button type="button" class="btn btn-primary btn-group-vertical" ng-click="showUpload()">
+        Load from file
+    </button>
+    <div ng-show="uploadBookmarkVisible" class="upload-container">
+        <input type="file" class="btn btn-primary" ng-file-select="onFileSelect($files)" >
+    </div>
 </div>

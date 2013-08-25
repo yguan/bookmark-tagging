@@ -16,7 +16,8 @@ require([
     'lib/angular/ui-bootstrap-tpls',
     'lib/angular/bootstrap-tagsinput',
     'lib/angular/bootstrap-tagsinput-angular',
-    'lib/angular/ng-grid'
+    'lib/angular/ng-grid',
+    'lib/angular/angular-file-upload'
 ], function() {
     require([
         'data/bookmark-loader',

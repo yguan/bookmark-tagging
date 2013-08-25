@@ -136,6 +136,23 @@ var db = require('lib/db'),
                         addData(key, items);
                     }).fail(op.failure);
             });
+        },
+        addAll: function (dbKey, items, op) {
+            var i = 0,
+                len = items.length,
+                db = idb.db[dbKey];
+
+            function addNext() {
+                if (i < len) {
+                    db.add(items[i]).done(function () {
+                        ++i;
+                        addNext();
+                    });
+                } else {   // complete
+                    op.success();
+                }
+            }
+            addNext();
         }
     };
 

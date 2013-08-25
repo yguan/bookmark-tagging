@@ -40,6 +40,7 @@ module.exports = {
         $scope.alerts = [];
         $scope.loadBtn = { disabled: false };
         $scope.exportBtn = { disabled: false };
+        $scope.uploadBookmarkVisible = false;
 
         $scope.go = function (path) {
             $location.path(path);
@@ -57,7 +58,7 @@ module.exports = {
                     bookmarkLoader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children, loadBookmarksOp);
                 });
             }
-        }
+        };
 
         $scope.exportDB = function () {
             $scope.exportBtn.disabled = true;
@@ -69,7 +70,82 @@ module.exports = {
                     exportOp.success();
                 }
             }, exportOp);
-        }
+        };
+
+        $scope.showUpload = function() {
+            $scope.uploadBookmarkVisible = true;
+        };
+
+//        $scope.onFileSelect = function (content, completed) {
+//            var op = {
+//                success: function (results) {
+//                    if (results.length > 0) {
+//                        $scope.alerts = [{ type: 'success', msg: 'Loaded bookmarks successfully.' }];
+//                        $scope.$apply();
+//                    } else {
+//                        op.failure();
+//                    }
+//                },
+//                failure: function (error) {
+//                    $scope.alerts = [{ type: 'error', msg: 'Failed to load bookmarks' }];
+//                    $scope.$apply();
+//                }
+//            };
+//            if (completed && content.length > 0) {
+//                var data = JSON.parse(content); // Presumed content is a json string!
+//                idb.db.add(data.tagGroup, op);
+//                idb.db.add(data.bookmark, op);
+//            }
+//        };
+
+        $scope.onFileSelect = function ($files) {
+            $scope.alerts = [{ type: 'info', msg: 'Loading bookmarks.' }];
+
+            var reader = new FileReader(),
+                file = $files[0],
+                blob = file.slice(0, file.size);
+
+            reader.onload = function() {
+                var result = reader.result,
+                    errorCount = 0,
+                    operationCount = 0,
+                    totalOperationCount = 2,
+                    op = {
+                        success: function (results) {
+                            operationCount++;
+                            if (errorCount ===  0 && operationCount === totalOperationCount) {
+                                $scope.uploadBookmarkVisible = false;
+                                $scope.alerts = [{ type: 'success', msg: 'Loaded bookmarks successfully.' }];
+                                $scope.$apply();
+                                hideMsgAfterward($scope);
+                            }
+                        },
+                        failure: function (error) {
+                            operationCount++;
+                            errorCount++;
+                            $scope.alerts = [{ type: 'error', msg: 'Failed to load bookmarks' }];
+                            $scope.$apply();
+                        }
+                    };
+
+                if (result.length > 0) {
+                    var data = JSON.parse(result); // Presumed content is a json string!
+
+                    idb.addAll('tagGroup', data.tagGroup, op);
+                    idb.addAll('bookmark', data.bookmark, op);
+
+//                    _.each(data.tagGroup, function (tagGroup) {
+//                        idb.db['tagGroup'].add(tagGroup).done(op.success).fail(op.failure);
+//                    });
+//
+//                    _.each(data.tagGroup, function (bookmark) {
+//                        idb.db['bookmark'].add(bookmark).done(op.success).fail(op.failure);
+//                    });
+                }
+            };
+            reader.readAsText(blob);
+        };
+
 
         $scope.addAlert = function() {
             $scope.alerts.push({msg: "Another alert!"});

@@ -3,14 +3,18 @@
 }
 
 .bookmark-actions {
-    width:250px;
+    width: 320px;
     margin: 5px 0 5px 0;
     text-align: center;
 }
 
 .bookmark-actions .btn-group-vertical {
-    width: 200px;
+    width: 298px;
     margin: 5px;
+}
+
+.upload-container {
+    margin-top: 5px;
 }
 
 .bookmark-add {
