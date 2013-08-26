@@ -1,5 +1,5 @@
 ({
-   //node tools/r.js -o app-indexedDB/app.build.js
+   //node tools/r.js -o app/app.build.js
     appDir: '.',
     baseUrl: 'js',
     dir: '../app-built',
