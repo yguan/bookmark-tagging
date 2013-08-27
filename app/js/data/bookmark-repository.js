@@ -4,22 +4,63 @@ var idb = require('data/idb'),
 
 module.exports = {
     create: function (bookmark, tags, op) {
+        var me = this;
+
         if (tags) {
             tagGroupRepo.add(tags, {
                 success: function (tagGroup) {
                     bookmark.tagGroupId = tagGroup.id;
-                    idb.create(dbKey, bookmark, op);
+                    me.add(bookmark, op);
                 },
-                failure: function (error) {
-                    console.log(error);
-                }
+                failure: op.failure
             })
         } else {
-            idb.create(dbKey, bookmark, op);
+            me.add(bookmark, op);
         }
     },
     add: function (bookmark, op) {
-        idb.add(dbKey, bookmark, 'url', op);
+        var me = this;
+
+        if (bookmark.tags) {
+            tagGroupRepo.add(bookmark.tags, {
+                success: function (tagGroup) {
+                    bookmark.tagGroupId = tagGroup.id;
+                    delete bookmark.tags;
+                    idb.add(dbKey, bookmark, 'url', op);
+                },
+                failure: op.failure
+            })
+        } else {
+            idb.add(dbKey, bookmark, 'url', op);
+        }
+
+    },
+    addAll: function (bookmarks, op) {
+        var me = this,
+            i = 0,
+            len = bookmarks.length,
+            errorCount = 0;
+
+        function addNext() {
+            if (i < len) {
+                me.add(bookmarks[i], {
+                    success: function () {
+                        ++i;
+                        addNext();
+                    },
+                    failure: function () {
+                        errorCount++;
+                    }
+                });
+            } else {   // complete
+                if (errorCount === 0) {
+                    op.success();
+                } else {
+                    op.failure();
+                }
+            }
+        }
+        addNext();
     },
     findByKey: function (key, value, op) {
         idb.findAllByKey(dbKey, key, value, op);

@@ -9,6 +9,33 @@ module.exports = {
         this.addTagsToCache(tags);
         idb.add(dbKey, {tags: tags}, 'tags', op);
     },
+    addAll: function (tagGroups, op) {
+        var me = this,
+            i = 0,
+            len = tagGroups.length,
+            errorCount = 0;
+
+        function addNext() {
+            if (i < len) {
+                me.add(tagGroups[i].tags, {
+                    success: function () {
+                        ++i;
+                        addNext();
+                    },
+                    failure: function () {
+                        errorCount++;
+                    }
+                });
+            } else {   // complete
+                if (errorCount === 0) {
+                    op.success();
+                } else {
+                    op.failure();
+                }
+            }
+        }
+        addNext();
+    },
     findAll: function (tags, op) {
         var filterFn = function (tagGroup) {
             return (_.intersection(tags, tagGroup.tags).length === tags.length);

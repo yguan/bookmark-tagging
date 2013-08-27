@@ -16,7 +16,7 @@ function parseChromeBookmarks(bookmarkTreeNodes, tags) {
                 tags: tags,
                 title: node.title,
                 url: node.url,
-                dateAdded: node.dateAdded
+                dateAdded: new Date(node.dateAdded)
             });
         } else {
             newTags = _.clone(tags) || [];

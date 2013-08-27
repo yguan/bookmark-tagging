@@ -1,5 +1,7 @@
 var bookmarkLoader = require('data/bookmark-loader'),
     idb = require('data/idb'),
+    bookmarkRepo = require('data/bookmark-repository'),
+    tagGroupRepo = require('data/tag-group-repository'),
     fileSaver = require('lib/FileSaver');
 
 function hideMsgAfterward($scope) {
@@ -86,31 +88,31 @@ module.exports = {
 
             reader.onload = function() {
                 var result = reader.result,
-                    errorCount = 0,
-                    operationCount = 0,
-                    totalOperationCount = 2,
-                    op = {
-                        success: function (results) {
-                            operationCount++;
-                            if (errorCount ===  0 && operationCount === totalOperationCount) {
-                                $scope.uploadBookmarkVisible = false;
-                                $scope.alerts = [{ type: 'success', msg: 'Loaded bookmarks successfully.' }];
-                                $scope.$apply();
-                                hideMsgAfterward($scope);
-                            }
-                        },
-                        failure: function (error) {
-                            errorCount++;
-                            $scope.alerts = [{ type: 'error', msg: 'Failed to load bookmarks' }];
-                            $scope.$apply();
-                        }
-                    };
+                    tagsLookup = {};
 
                 if (result.length > 0) {
                     var data = JSON.parse(result); // Presumed content is a json string!
 
-                    idb.addAll('tagGroup', data.tagGroup, op);
-                    idb.addAll('bookmark', data.bookmark, op);
+                    _.each(data.tagGroup, function (tagGroup) {
+                        tagsLookup[tagGroup.id] = tagGroup.tags;
+                    });
+
+                    _.each(data.bookmark, function (bookmark) {
+                        bookmark['tags'] = tagsLookup[bookmark.tagGroupId];
+                    });
+
+                    bookmarkRepo.addAll(data.bookmark, {
+                        success: function (results) {
+                            $scope.uploadBookmarkVisible = false;
+                            $scope.alerts = [{ type: 'success', msg: 'Loaded bookmarks successfully.' }];
+                            $scope.$apply();
+                            hideMsgAfterward($scope);
+                        },
+                        failure: function (error) {
+                            $scope.alerts = [{ type: 'error', msg: 'Failed to load bookmarks' }];
+                            $scope.$apply();
+                        }
+                    });
                 }
             };
             reader.readAsText(blob);

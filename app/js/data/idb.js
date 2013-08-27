@@ -137,23 +137,28 @@ var db = require('lib/db'),
                     }).fail(op.failure);
             });
         },
-        addAll: function (dbKey, items, op) {
-            var i = 0,
-                len = items.length,
-                db = idb.db[dbKey];
-
-            function addNext() {
-                if (i < len) {
-                    db.add(items[i]).done(function () {
-                        ++i;
-                        addNext();
-                    }).fail(op.failure);
-                } else {   // complete
-                    op.success();
-                }
-            }
-            addNext();
-        },
+//        addAll: function (dbKey, items, uniqueKey, op) {
+//            var me = this,
+//                i = 0,
+//                len = items.length;
+//
+//            function addNext() {
+//                if (i < len) {
+//                    me.add(dbKey, items[i], uniqueKey, {
+//                        success: function () {
+//                            ++i;
+//                            addNext();
+//                        },
+//                        failure: function () {
+//                            op.failure();
+//                        }
+//                    });
+//                } else {   // complete
+//                    op.success();
+//                }
+//            }
+//            addNext();
+//        },
         updateAll: function (dbKey, items, op) {
             var i = 0,
                 len = items.length,
