@@ -74,22 +74,36 @@ module.exports = {
     get: function (id, op) {
         idb.get(dbKey, id, op);
     },
-    rename: function (oldTag, newTag, op) {
+
+    /*
+     * tag order is not respected
+     */
+    rename: function (oldTags, newTags, op) {
         var me = this,
             i,
             len,
             cache = me.allTagsCache,
+            renameSingleTag = oldTags.length === 1 && newTags.length === 1,
             updateTagGroup = function (tagGroups) {
                 _.each(tagGroups, function (tagGroup) {
-                    tagGroup.tags[_.indexOf(tagGroup.tags, oldTag)] = newTag;
+                    if (renameSingleTag) {
+                        tagGroup.tags[_.indexOf(tagGroup.tags, oldTags[0])] = newTags[0];
+                    } else {
+                        tagGroup.tags = _.difference(tagGroup.tags, oldTags).concat(newTags);
+                    }
                 });
             };
 
-        delete cache[oldTag];
-        cache[newTag] = true;
+        if (renameSingleTag) {
+            delete cache[oldTags[0]];
+        }
+
+        _.each(newTags, function (tag) {
+            cache[tag] = true;
+        });
 
         idb.findAll(dbKey, function (tagGroup) {
-            return _.contains(tagGroup.tags, oldTag);
+            return _.in(oldTags, tagGroup.tags);
         }, {
             success: function (tagGroups) {
                 updateTagGroup(tagGroups);

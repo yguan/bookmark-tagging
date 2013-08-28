@@ -3,7 +3,8 @@ require.config({
     paths: {
         lib: './lib',
         data: './data',
-        view: './view'
+        view: './view',
+        extension: './extension'
     }
 });
 
@@ -16,9 +17,11 @@ require([
     'lib/angular/bootstrap-tagsinput',
     'lib/angular/bootstrap-tagsinput-angular',
     'lib/angular/ng-grid',
-    'lib/angular/angular-file-upload'
+    'lib/angular/angular-file-upload',
+    'extension/lodash.underscore'
 ], function() {
     require([
+
         'data/bookmark-loader',
         'view/all-views'
     ], function(loader, views) {

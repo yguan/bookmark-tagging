@@ -11,12 +11,12 @@ module.exports = {
             return tagGroupRepo.getAllTags();
         };
 
-        $scope.oldTag = '';
-        $scope.newTag = '';
+        $scope.oldTags = [];
+        $scope.newTags = [];
         $scope.renameBtn = { disabled: false };
 
-        $scope.isUnchanged = function(newTag) {
-            return newTag.length === 0;
+        $scope.isUnchanged = function(oldTags, newTags) {
+            return oldTags.length === 0 || newTags.length === 0;
         };
 
         $scope.go = function (path) {
@@ -31,13 +31,13 @@ module.exports = {
             $scope.renameBtn.disabled = true;
             alerts.show($scope, {
                 type: alerts.type.info,
-                msg: 'Renaming tag'
+                msg: 'Renaming tags'
             });
 
-            tagGroupRepo.rename($scope.oldTag.toLowerCase(), $scope.newTag.toLowerCase(), {
+            tagGroupRepo.rename(_.toLowerCase($scope.oldTags), _.toLowerCase($scope.newTags), {
                 success: function () {
-                    $scope.oldTag = '';
-                    $scope.newTag = '';
+                    $scope.oldTags = [];
+                    $scope.newTags = [];
                     alerts.show($scope, {
                         type: alerts.type.success,
                         msg: 'Renamed successfully',

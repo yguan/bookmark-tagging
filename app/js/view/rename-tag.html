@@ -1,11 +1,20 @@
 <div ng-controller="RenameTagCtrl" class="bookmark-rename">
     <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-    <label>Old Tag:</label>
-    <input type="text" ng-model="oldTag" autofocus="autofocus" typeahead="tag for tag in getTags() | filter:$viewValue | limitTo:10000">
-    <label>New Tag:</label>
-    <input type="text" ng-model="newTag"/>
+    <label>Old Tags:</label>
+    <bootstrap-tagsinput
+            ng-model="oldTags"
+            typeahead-source="getTags"
+            tagclass="label tag-default"
+            focus=true>
+    </bootstrap-tagsinput>
+    <label>New Tags:</label>
+    <bootstrap-tagsinput
+            ng-model="newTags"
+            typeahead-source="getTags"
+            tagclass="label tag-default">
+    </bootstrap-tagsinput>
     <br />
-    <button type="button" class="btn btn-primary" ng-click="rename()" ng-disabled="isUnchanged(newTag)">Rename</button>
+    <button type="button" class="btn btn-primary" ng-click="rename()" ng-disabled="isUnchanged(oldTags, newTags)">Rename</button>
     <button type="button" class="btn btn-primary" ng-click="go('/search')">Go to search</button>
     <button type="button" class="btn btn-primary" ng-click="go('/actions')">Home</button>
 </div>
