@@ -7,7 +7,7 @@ module.exports = {
     controller: function($scope, $location) {
 
         function getActiveTab() {
-            if (chrome.tabs) {
+            if (chrome.tabs && chrome.tabs.query) {
                 chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
                     // since only one tab should be active and in the current window at once
                     // the return variable should only have one entry
@@ -21,6 +21,7 @@ module.exports = {
                     bookmarkRepo.findByKey('url', url, {
                         success: function (results) {
                             var bookmark = results[0];
+
                             if (results.length > 0) {
                                 $scope.title = bookmark.title;
 
@@ -46,6 +47,8 @@ module.exports = {
             return tagGroupRepo.getAllTags();
         };
 
+        $scope.title = '';
+        $scope.url = '';
         $scope.selectedTags = [];
         $scope.isSaving = false;
 
