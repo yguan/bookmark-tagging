@@ -19,10 +19,10 @@ module.exports = {
     /**
      * init should be called first and wait for loadIndexedDB completed before calling other methods
      */
-    init: function () {
+    init: function (op) {
         idb.loadIndexedDB({
             success: function () {
-                tagGroupRepo.loadAllTagsToCache({});
+                tagGroupRepo.loadAllTagsToCache(op);
             }
         });
     },

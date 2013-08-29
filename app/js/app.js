@@ -25,8 +25,10 @@ require([
         'data/bookmark-loader',
         'view/all-views'
     ], function(loader, views) {
-        loader.init();
-        views.init();
+        loader.init({
+            success: views.init,
+            failure: views.init
+        });
     });
 });
 
