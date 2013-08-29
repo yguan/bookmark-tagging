@@ -2,7 +2,8 @@ var bookmarkLoader = require('data/bookmark-loader'),
     idb = require('data/idb'),
     bookmarkRepo = require('data/bookmark-repository'),
     tagGroupRepo = require('data/tag-group-repository'),
-    fileSaver = require('lib/FileSaver');
+    fileSaver = require('lib/FileSaver'),
+    tab = require('view/tab');
 
 function hideMsgAfterward($scope) {
     setTimeout(function () {
@@ -46,6 +47,10 @@ module.exports = {
 
         $scope.go = function (path) {
             $location.path(path);
+        };
+
+        $scope.openNewTab = function (path) {
+            tab.openInNewTab(path);
         };
 
         $scope.loadBookmarks = function () {

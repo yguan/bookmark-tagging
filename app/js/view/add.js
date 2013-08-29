@@ -1,5 +1,6 @@
 var bookmarkRepo = require('data/bookmark-repository'),
-    tagGroupRepo = require('data/tag-group-repository');
+    tagGroupRepo = require('data/tag-group-repository'),
+    tab = require('view/tab');
 
 module.exports = {
     name: 'AddCtrl',
@@ -39,8 +40,6 @@ module.exports = {
             }
         }
 
-        tagGroupRepo.loadAllTagsToCache({});
-
         getActiveTab();
 
         $scope.getTags = function () {
@@ -56,6 +55,10 @@ module.exports = {
 
         $scope.go = function (path) {
             $location.path(path);
+        };
+
+        $scope.openNewTab = function (path) {
+            tab.openInNewTab(path);
         };
 
         $scope.save = function () {

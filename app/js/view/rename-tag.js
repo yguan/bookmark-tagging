@@ -5,8 +5,6 @@ module.exports = {
     name: 'RenameTagCtrl',
     controller: function($scope, $location) {
 
-        tagGroupRepo.loadAllTagsToCache({});
-
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
         };

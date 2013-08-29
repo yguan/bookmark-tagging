@@ -55,6 +55,19 @@
     width: 775px;
 }
 
+.bookmark-search-tab {
+    height: 100%;
+    padding: 5px;
+}
+.bookmark-search-tab .grid {
+    min-height: 550px;
+    margin-top: 10px;
+}
+
+.bookmark-search-tab .bootstrap-tagsinput {
+    width: 800px;
+}
+
 .tag-default {
     background-color: #3a87ad;
     font-size: 12px;

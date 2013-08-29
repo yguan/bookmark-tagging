@@ -1,16 +1,21 @@
 <div ng-controller="AddCtrl" class="bookmark-add">
+
     <label>Title:</label>
-    <input type="text" ng-model="title" autofocus="autofocus"/><br />
+    <input type="text" ng-model="title"/><br />
+
+    <label>Url:</label>
+    <input type="text" ng-model="url"/><br />
+
     <label>Tags:</label>
     <bootstrap-tagsinput
             ng-model="selectedTags"
             typeahead-source="getTags"
-            tagclass="label tag-default">
+            tagclass="label tag-default"
+            focus=true>
     </bootstrap-tagsinput>
-    <label>Url:</label>
-    <input type="text" ng-model="url"/>
-    <br />
-    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="isSaveBtnDisabled(title, url, selectedTags, isSaving)">Save</button>
+
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="isSaveBtnDisabled(title, url, selectedTags, isSaving)">Save Bookmark</button>
     <button type="button" class="btn btn-primary" ng-click="go('/search')">Go to search</button>
+    <button type="button" class="btn btn-primary" ng-click="openNewTab('/search-tab')">Go to search tab</button>
     <button type="button" class="btn btn-primary" ng-click="go('/actions')">Home</button>
 </div>

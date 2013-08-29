@@ -1,19 +1,16 @@
 var bookmarkRepo = require('data/bookmark-repository'),
     tagGroupRepo = require('data/tag-group-repository'),
     cellTemplate = {
+        dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
         url: '<div class="ngCellText"><a href="{{row.getProperty(col.field)}}" target="_blank">{{row.getProperty(col.field)}}</a></div>'
     };
 
 module.exports = {
-    name: 'SearchCtrl',
+    name: 'SearchTabCtrl',
     controller: function($scope, $location) {
 
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
-        };
-
-        $scope.go = function (path) {
-            $location.path(path);
         };
 
         $scope.gridData = [];
@@ -25,7 +22,8 @@ module.exports = {
             enableCellEditOnFocus: false,
             enableColumnResize: true,
             columnDefs: [
-                {field: 'title', displayName: 'Title', width: 580},
+                {field: 'title', displayName: 'Title', width: 650},
+                {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded},
                 {field: 'url', displayName: 'Link', cellTemplate: cellTemplate.url}
             ]
         };

@@ -1,4 +1,5 @@
 var idb = require('data/idb'),
+    tagGroupRepo = require('data/tag-group-repository'),
     bookmarkRepo = require('data/bookmark-repository'),
     bookmarkParser = require('data/chrome-bookmark-parser');
 
@@ -19,7 +20,11 @@ module.exports = {
      * init should be called first and wait for loadIndexedDB completed before calling other methods
      */
     init: function () {
-        idb.loadIndexedDB();
+        idb.loadIndexedDB({
+            success: function () {
+                tagGroupRepo.loadAllTagsToCache({});
+            }
+        });
     },
     loadChromeBookmarks: function (bookmarkTreeNodes, op) {
         loadBookmarks(bookmarkTreeNodes, op);
