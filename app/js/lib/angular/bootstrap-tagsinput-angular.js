@@ -29,6 +29,7 @@ angular.module('bootstrap-tagsinput', [])
 
                     select.tagsinput({
                         typeahead: {
+                            items: (attrs.maxVisibleItems && parseInt(attrs.maxVisibleItems)) || 8,
                             source: angular.isFunction(scope.$parent[attrs.typeaheadSource]) ? scope.$parent[attrs.typeaheadSource] : null
                         },
                         itemValue: getItemProperty(scope, attrs.itemvalue),

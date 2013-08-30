@@ -1,7 +1,7 @@
 <div ng-controller="ActionsCtrl" class="bookmark-actions">
     <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="go('/add')">
-        Add
+        Save bookmark
     </button>
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="go('/search')">
         Search
@@ -13,13 +13,13 @@
         Rename tags
     </button>
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="loadBookmarks()" ng-disabled="loadBtn.disabled">
-        Load from Chrome
+        Load Chrome bookmarks
     </button>
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="exportDB()" ng-disabled="exportBtn.disabled">
         Export
     </button>
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="showUpload()">
-        Load from file
+        Import
     </button>
     <div ng-show="uploadBookmarkVisible" class="upload-container">
         <input type="file" class="btn btn-primary" ng-file-select="onFileSelect($files)" >

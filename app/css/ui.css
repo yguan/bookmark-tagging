@@ -19,18 +19,14 @@
 
 .bookmark-add {
     width: 650px;
-    height: 230px;
+    min-height: 400px;
     margin: 10px;
 }
 
 .bookmark-rename {
     width: 650px;
-    min-height: 300px;
+    min-height: 335px;
     margin: 10px;
-}
-
-.bookmark-rename .typeahead {
-    max-height: 100px;
 }
 
 .bookmark-add input,
@@ -74,7 +70,7 @@
 }
 
 .typeahead {
-    max-height: 250px;
+    max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
 }

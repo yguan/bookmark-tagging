@@ -4,6 +4,7 @@
             ng-model="selectedTags"
             typeahead-source="getTags"
             tagclass="label tag-default"
+            max-visible-items=5000
             focus=true>
     </bootstrap-tagsinput>
     <button type="button" class="btn btn-primary" ng-click="searchTags()">Search tags</button>

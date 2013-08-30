@@ -103,7 +103,8 @@ module.exports = {
                     });
 
                     _.each(data.bookmark, function (bookmark) {
-                        bookmark['tags'] = tagsLookup[bookmark.tagGroupId];
+                        bookmark.tags = tagsLookup[bookmark.tagGroupId];
+                        bookmark.dateAdded = new Date(bookmark.dateAdded);
                     });
 
                     bookmarkRepo.addAll(data.bookmark, {
