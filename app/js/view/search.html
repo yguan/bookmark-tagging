@@ -1,14 +1,18 @@
 <div ng-controller="SearchCtrl" class="bookmark-search">
-    <label>Keywords:</label>
+    <label>Search:</label>
     <bootstrap-tagsinput
-            ng-model="selectedTags"
+            ng-model="keywords"
             typeahead-source="getTags"
             tagclass="label tag-default"
             max-visible-items=5000
             focus=true>
     </bootstrap-tagsinput>
-    <button type="button" class="btn btn-primary" ng-click="searchTags()">Search tags</button>
-    <button type="button" class="btn btn-primary" ng-click="searchTitles()">Search titles</button>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary" ng-model="keywordType" btn-radio="'tag'">with tags</button>
+        <button type="button" class="btn btn-primary" ng-model="keywordType" btn-radio="'title'">with title</button>
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="openNewTab('/search-tab')">Go to search tab</button>
+    <button type="button" class="btn btn-primary" ng-click="go('/rename-tag')">Rename tags</button>
     <button type="button" class="btn btn-primary" ng-click="go('/actions')">Home</button>
     <div class="grid" ng-grid="gridOptions"></div>
 </div>

@@ -13,7 +13,9 @@ module.exports = {
             return tagGroupRepo.getAllTags();
         };
 
+        $scope.keywords = [];
         $scope.gridData = [];
+        $scope.keywordType = 'tag';
 
         $scope.gridOptions = {
             data: 'gridData',
@@ -28,10 +30,10 @@ module.exports = {
             ]
         };
 
-        $scope.searchTags = function () {
+        function searchTags() {
             $scope.gridData = [];
 
-            tagGroupRepo.findAll($scope.selectedTags, {
+            tagGroupRepo.findAll($scope.keywords, {
                 success: function (tagGroups) {
                     _.each(tagGroups, function (tagGroup) {
                         bookmarkRepo.findByKey('tagGroupId', tagGroup.id, {
@@ -46,12 +48,12 @@ module.exports = {
                     });
                 }
             })
-        };
+        }
 
-        $scope.searchTitles = function () {
+        function searchTitles() {
             $scope.gridData = [];
 
-            bookmarkRepo.findByTitle($scope.selectedTags, {
+            bookmarkRepo.findByTitle($scope.keywords, {
                 success: function (bookmarks) {
                     $scope.gridData = $scope.gridData.concat(bookmarks);
                     $scope.$apply();
@@ -60,7 +62,29 @@ module.exports = {
                     console.log(results);
                 }
             })
-        };
+        }
+
+        function search() {
+            var hasKeyword = $scope.keywords.length > 0;
+
+            if (hasKeyword) {
+                if ($scope.keywordType === 'tag') {
+                    searchTags();
+                } else {
+                    searchTitles();
+                }
+            } else if ($scope.gridData.length > 0) {
+                $scope.gridData = [];
+            }
+        }
+
+        $scope.$watch('keywords', function(newValue, oldValue) {
+            search();
+        },true);
+
+        $scope.$watch('keywordType', function(newValue, oldValue) {
+            search();
+        },true);
     }
 };
 
