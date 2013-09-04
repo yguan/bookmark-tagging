@@ -77,8 +77,7 @@ module.exports = {
                         tagGroupId: tagGroup.id
                     }, {
                         success: function () {
-                            $scope.go('/actions');
-                            $scope.$apply();
+                            window.close();
                         },
                         failure: function (results) {
                             console.log(results);
