@@ -4,5 +4,12 @@ _.mixin({
     },
     in: function (searchArray, targetArray) {
         return (_.intersection(searchArray, targetArray).length === searchArray.length);
+    },
+    mapToLookup: function (array, key) {
+        var lookup = {};
+        _.each(array, function (item) {
+            lookup[item[key]] = item;
+        });
+        return lookup;
     }
 });

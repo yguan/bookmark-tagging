@@ -13,6 +13,16 @@ module.exports = {
     name: 'SearchTabCtrl',
     controller: function($scope, $location) {
 
+        var tagGroupCache = {};
+
+        tagGroupRepo.getAll({
+            success: function (tagGroups) {
+                _.each(tagGroups, function (tagGroup) {
+                    tagGroupCache[tagGroup.id] = tagGroup.tags.join(', ');
+                })
+            }
+        });
+
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
         };
@@ -29,7 +39,8 @@ module.exports = {
             enableColumnResize: true,
             columnDefs: [
                 {field: 'title', displayName: 'Title', width: 650, cellTemplate: cellTemplate.title},
-                {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded}
+                {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded},
+                {field: 'tags', displayName: 'Tags'}
             ]
         };
 
@@ -41,6 +52,10 @@ module.exports = {
                     _.each(tagGroups, function (tagGroup) {
                         bookmarkRepo.findByKey('tagGroupId', tagGroup.id, {
                             success: function (bookmarks) {
+                                _.each(bookmarks, function (bookmark) {
+                                    bookmark.tags = tagGroupCache[bookmark.tagGroupId];
+                                });
+
                                 $scope.gridData = $scope.gridData.concat(bookmarks);
                                 $scope.$apply();
                             },

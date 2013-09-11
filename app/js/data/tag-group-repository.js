@@ -71,6 +71,9 @@ module.exports = {
             }, op);
         }
     },
+    getAll: function (op) {
+        idb.getAll(dbKey, op);
+    },
     get: function (id, op) {
         idb.get(dbKey, id, op);
     },

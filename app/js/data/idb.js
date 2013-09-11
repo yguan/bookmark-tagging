@@ -113,6 +113,14 @@ var db = require('lib/db'),
                 .done(op.success)
                 .fail(op.failure);
         },
+        getAll: function (dbkey, op) {
+            idb.db[dbkey]
+                .query()
+                .all()
+                .execute()
+                .done(op.success)
+                .fail(op.failure);
+        },
         export: function (op) {
             var dbKeys = Object.keys(this.schema),
                 data = {},
