@@ -1,6 +1,6 @@
 {
     "name": "Bookmarks Tagging",
-    "version": "1.6",
+    "version": "1.7",
     "description": "Manage bookmarks with tags.",
     "permissions": [
         "bookmarks",
