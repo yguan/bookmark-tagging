@@ -1,8 +1,12 @@
 var bookmarkRepo = require('data/bookmark-repository'),
     tagGroupRepo = require('data/tag-group-repository'),
+    getTitleTemplate = function () {
+        var template = '<div class="ngCellText"><a href="{url}" title="{url}" target="_blank">{title}</a></div>';
+        return template.replace(/{url}/g, '{{row.getProperty(\'url\')}}').replace('{title}', '{{row.getProperty(col.field)}}');
+    },
     cellTemplate = {
         dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
-        url: '<div class="ngCellText"><a href="{{row.getProperty(col.field)}}" target="_blank">{{row.getProperty(col.field)}}</a></div>'
+        title: getTitleTemplate()
     };
 
 module.exports = {
@@ -24,9 +28,8 @@ module.exports = {
             enableCellEditOnFocus: false,
             enableColumnResize: true,
             columnDefs: [
-                {field: 'title', displayName: 'Title', width: 650},
-                {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded},
-                {field: 'url', displayName: 'Link', cellTemplate: cellTemplate.url}
+                {field: 'title', displayName: 'Title', width: 650, cellTemplate: cellTemplate.title},
+                {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded}
             ]
         };
 
