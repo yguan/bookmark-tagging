@@ -64,6 +64,11 @@
     width: 800px;
 }
 
+.bookmark-show-tags .grid {
+    min-height: 550px;
+    margin-top: 10px;
+}
+
 .tag-default {
     background-color: #3a87ad;
     font-size: 12px;
