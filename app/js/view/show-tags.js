@@ -1,20 +1,28 @@
 var tagGroupRepo = require('data/tag-group-repository'),
+    tab = require('view/tab'),
     getTagsTemplate = function () {
-        var template = '<div class="ngCellText"><a href="{url}" target="_blank">{tags}</a></div>',
-            url = location.origin + location.pathname + '#/search-tab?tags={tags}';
-
-        return template.replace('{url}', url).replace(/{tags}/g, '{{row.getProperty(col.field)}}');
+        var template = '<div class="ngCellText"><a href="javascript:void(0)" ng-click="searchWithTags({tags})">{{{tags}}}</a></div>';
+        return template.replace(/{tags}/g, 'row.getProperty(col.field)');
     };
 
 module.exports = {
     name: 'ShowTagsCtrl',
     controller: function ($scope, $location) {
 
+        $scope.go = function (path) {
+            $location.path(path);
+        };
+
+        $scope.searchWithTags = function (tags) {
+            var path = '/search-tab?tags=' + tags;
+            tab.openInNewTab(path);
+        };
+
         $scope.gridData = [];
 
         $scope.gridOptions = {
             data: 'gridData',
-            enableCellSelection: true,
+            enableCellSelection: false,
             enableRowSelection: false,
             enableCellEditOnFocus: false,
             enableColumnResize: true,

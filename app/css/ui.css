@@ -64,9 +64,14 @@
     width: 800px;
 }
 
+.bookmark-show-tags {
+    min-width: 795px;
+    margin: 5px;
+}
+
 .bookmark-show-tags .grid {
     min-height: 550px;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .tag-default {

@@ -27,13 +27,17 @@ module.exports = {
             return tagGroupRepo.getAllTags();
         };
 
+        $scope.go = function (path) {
+            $location.path(path);
+        };
+
         $scope.keywords = [];
         $scope.gridData = [];
         $scope.keywordType = 'tag';
 
         $scope.gridOptions = {
             data: 'gridData',
-            enableCellSelection: true,
+            enableCellSelection: false,
             enableRowSelection: false,
             enableCellEditOnFocus: false,
             enableColumnResize: true,

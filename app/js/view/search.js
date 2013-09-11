@@ -36,7 +36,7 @@ module.exports = {
 
         $scope.gridOptions = {
             data: 'gridData',
-            enableCellSelection: true,
+            enableCellSelection: false,
             enableRowSelection: false,
             enableCellEditOnFocus: false,
             enableColumnResize: true,
