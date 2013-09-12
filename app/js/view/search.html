@@ -1,4 +1,4 @@
-<div ng-controller="SearchCtrl" class="bookmark-search">
+<div ng-controller="SearchCtrl" class="bookmark-search" resize>
     <label>Search:</label>
     <bootstrap-tagsinput
             ng-model="keywords"
@@ -15,5 +15,5 @@
     <button type="button" class="btn btn-primary" ng-click="go('/rename-tag')">Rename tags</button>
     <button type="button" class="btn btn-primary" ng-click="go('/show-tags')">Show tags</button>
     <button type="button" class="btn btn-primary" ng-click="go('/actions')">Home</button>
-    <div class="grid" ng-grid="gridOptions"></div>
+    <div class="grid" ng-grid="gridOptions" style="height:{{windowHeight-120}}px"></div>
 </div>

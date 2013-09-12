@@ -18,6 +18,7 @@ require([
     'lib/angular/bootstrap-tagsinput-angular',
     'lib/angular/ng-grid',
     'lib/angular/angular-file-upload',
+    'lib/angular/styling',
     'extension/lodash.underscore'
 ], function() {
     require([
