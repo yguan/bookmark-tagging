@@ -54,7 +54,7 @@ module.exports = {
                     _.each(tagGroups, function (tagGroup) {
                         bookmarkRepo.findByKey('tagGroupId', tagGroup.id, {
                             success: function (bookmarks) {
-                                $scope.gridData = $scope.gridData.concat(bookmarks);
+                                $scope.gridData = _.uniq(_.union($scope.gridData, bookmarks), 'id');
                                 $scope.$apply();
                             },
                             failure: function (results) {
@@ -71,7 +71,7 @@ module.exports = {
 
             bookmarkRepo.findByTitle($scope.keywords, {
                 success: function (bookmarks) {
-                    $scope.gridData = $scope.gridData.concat(bookmarks);
+                    $scope.gridData = _.uniq(_.union($scope.gridData, bookmarks), 'id');
                     $scope.$apply();
                 },
                 failure: function (results) {
