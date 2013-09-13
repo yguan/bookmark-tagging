@@ -37,9 +37,6 @@ module.exports = {
 
         $scope.keywords = [];
         $scope.gridData = [];
-        $scope.tags = {
-            selected: []
-        };
 
         $scope.keywordType = 'tag';
 

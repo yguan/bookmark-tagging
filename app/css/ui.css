@@ -70,6 +70,18 @@
     margin: 5px;
 }
 
+.bookmark-show-tags .grid {
+    margin-top: 0;
+}
+
+.bookmark-show-tags .bootstrap-tagsinput{
+    width: 705px;
+}
+
+.btn.align-tagsinput {
+    margin-top: -10px;
+}
+
 .tag-default {
     background-color: #3a87ad;
     font-size: 12px;

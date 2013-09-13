@@ -1,4 +1,12 @@
 <div ng-controller="ShowTagsCtrl" class="bookmark-show-tags" resize>
-    <button type="button" class="btn btn-primary" ng-click="go('/actions')">Home</button>
+    <label>Filter tags:</label>
+    <bootstrap-tagsinput
+            ng-model="keywords"
+            typeahead-source="getTags"
+            tagclass="label tag-default"
+            max-visible-items=5000
+            focus=true>
+    </bootstrap-tagsinput>
+    <button type="button" class="btn btn-primary align-tagsinput" ng-click="go('/actions')">Home</button>
     <div class="grid" ng-grid="gridOptions" style="height:{{windowHeight-50}}px"></div>
 </div>

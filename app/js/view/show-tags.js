@@ -18,6 +18,11 @@ module.exports = {
             $location.url(url);
         };
 
+        $scope.getTags = function () {
+            return tagGroupRepo.getAllTags();
+        };
+
+        $scope.keywords = [];
         $scope.gridData = [];
 
         $scope.gridOptions = {
@@ -27,20 +32,26 @@ module.exports = {
             enableCellEditOnFocus: false,
             enableColumnResize: true,
             columnDefs: [
-                {field: 'tags', displayName: 'Tags', cellTemplate: getTagsTemplate()}
+                {field: 'tagsStr', displayName: 'Tags', cellTemplate: getTagsTemplate()}
             ],
-            sortInfo: {fields: ['tags'], directions: ['asc']}
+            sortInfo: {fields: ['tagsStr'], directions: ['asc']}
         };
 
         tagGroupRepo.getAll({
             success: function (tagGroups) {
                 _.each(tagGroups, function (tagGroup) {
-                    tagGroup.tags = tagGroup.tags.join(', ');
+                    tagGroup.tagsStr = tagGroup.tags.join(', ');
                 });
                 $scope.gridData = tagGroups;
                 $scope.$apply();
             }
         });
+
+        $scope.$watch('keywords', function(newValue, oldValue) {
+            $scope.gridData = _.filter($scope.gridData, function (tagGroup) {
+                return _.in(newValue, tagGroup.tags);
+            });
+        },true);
     }
 };
 
