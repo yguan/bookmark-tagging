@@ -17,8 +17,8 @@ module.exports = {
             return oldTags.length === 0 || newTags.length === 0;
         };
 
-        $scope.go = function (path) {
-            $location.path(path);
+        $scope.go = function (url) {
+            $location.url(url);
         };
 
         $scope.closeAlert = function() {

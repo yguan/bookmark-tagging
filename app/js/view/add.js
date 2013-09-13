@@ -56,8 +56,8 @@ module.exports = {
             return title.length === 0 || url.length === 0 || selectedTags.length === 0 || isSaving;
         };
 
-        $scope.go = function (path) {
-            $location.path(path);
+        $scope.go = function (url) {
+            $location.url(url);
         };
 
         $scope.openNewTab = function (path) {

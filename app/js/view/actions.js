@@ -45,8 +45,8 @@ module.exports = {
         $scope.exportBtn = { disabled: false };
         $scope.uploadBookmarkVisible = false;
 
-        $scope.go = function (path) {
-            $location.path(path);
+        $scope.go = function (url) {
+            $location.url(url);
         };
 
         $scope.openNewTab = function (path) {

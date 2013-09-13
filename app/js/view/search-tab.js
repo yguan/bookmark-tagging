@@ -27,8 +27,8 @@ module.exports = {
             return tagGroupRepo.getAllTags();
         };
 
-        $scope.go = function (path) {
-            $location.path(path);
+        $scope.go = function (url) {
+            $location.url(url);
         };
 
         $scope.keywords = [];
