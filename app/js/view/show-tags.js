@@ -9,13 +9,13 @@ module.exports = {
     name: 'ShowTagsCtrl',
     controller: function ($scope, $location) {
 
-        $scope.go = function (path) {
-            $location.path(path);
+        $scope.go = function (url) {
+            $location.url(url);
         };
 
         $scope.searchWithTags = function (tags) {
-            var path = '/search-tab?tags=' + tags;
-            tab.openInNewTab(path);
+            var url = '/search?tags=' + tags;
+            $location.url(url);
         };
 
         $scope.gridData = [];

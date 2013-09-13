@@ -14,6 +14,8 @@ module.exports = {
     name: 'SearchCtrl',
     controller: function($scope, $location) {
 
+        var queryStringTags = $location.search().tags
+
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
         };
@@ -101,6 +103,10 @@ module.exports = {
         $scope.$watch('keywordType', function(newValue, oldValue) {
             search();
         },true);
+
+        if (queryStringTags){
+            $scope.keywords = queryStringTags.split(', ');
+        }
     }
 };
 
