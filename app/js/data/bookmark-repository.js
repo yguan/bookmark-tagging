@@ -91,5 +91,16 @@ module.exports = {
             },
             failure: function () {}
         })
+    },
+    each: function (fn, op) {
+        idb.db[dbKey]
+            .query()
+            .filter(function (item) {
+                fn(item);
+                return false;
+            })
+            .execute()
+            .done(op.success)
+            .fail(op.failure);
     }
 };

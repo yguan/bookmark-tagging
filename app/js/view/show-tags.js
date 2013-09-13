@@ -1,4 +1,5 @@
-var tagGroupRepo = require('data/tag-group-repository'),
+var bookmarkRepo = require('data/bookmark-repository'),
+    tagGroupRepo = require('data/tag-group-repository'),
     tab = require('view/tab'),
     getTagsTemplate = function () {
         var template = '<div class="ngCellText"><a href="javascript:void(0)" ng-click="searchWithTags({tags})">{{{tags}}}</a></div>';
@@ -33,19 +34,32 @@ module.exports = {
             enableCellEditOnFocus: false,
             enableColumnResize: true,
             columnDefs: [
-                {field: 'tagsStr', displayName: 'Tags', cellTemplate: getTagsTemplate()}
+                {field: 'tagsStr', displayName: 'Tags', cellTemplate: getTagsTemplate()},
+                {field: 'bookmarkCount', displayName: 'Bookmarks', width: 90}
             ],
             sortInfo: {fields: ['tagsStr'], directions: ['asc']}
         };
 
         tagGroupRepo.getAll({
             success: function (tagGroups) {
-                _.each(tagGroups, function (tagGroup) {
-                    tagGroup.tagsStr = tagGroup.tags.join(', ');
-                });
                 tagGroupsCache = tagGroups;
-                $scope.gridData = tagGroups;
-                $scope.$apply();
+
+                _.each(tagGroupsCache, function (tagGroup) {
+                    tagGroup.tagsStr = tagGroup.tags.join(', ');
+                    tagGroup.bookmarkCount = 0;
+                });
+
+                var tagGroupLookup = _.mapToLookup(tagGroupsCache, 'id');
+
+                bookmarkRepo.each(function (bookmark) {
+                    tagGroupLookup[bookmark.tagGroupId].bookmarkCount++;
+                }, {
+                    success: function () {
+                        $scope.gridData = tagGroupsCache;
+                        $scope.$apply();
+                    },
+                    failure: console.log
+                })
             }
         });
 
