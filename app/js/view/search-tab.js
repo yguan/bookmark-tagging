@@ -13,7 +13,8 @@ module.exports = {
     name: 'SearchTabCtrl',
     controller: function($scope, $location) {
 
-        var tagGroupCache = {};
+        var tagGroupCache = {},
+            queryStringTags = $location.search().tags;
 
         tagGroupRepo.getAll({
             success: function (tagGroups) {
@@ -111,6 +112,10 @@ module.exports = {
         $scope.$watch('keywordType', function(newValue, oldValue) {
             search();
         },true);
+
+        if (queryStringTags){
+            $scope.keywords = queryStringTags.split(', ');
+        }
     }
 };
 

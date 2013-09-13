@@ -14,7 +14,10 @@ module.exports = {
     name: 'SearchCtrl',
     controller: function($scope, $location) {
 
-        var queryStringTags = $location.search().tags
+        var queryStringTags = $location.search().tags,
+            getUrlWithTags = function (url){
+                return url + '?tags=' + $scope.keywords.join(',');
+            };
 
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
@@ -25,12 +28,11 @@ module.exports = {
         };
 
         $scope.goWithTags = function (url) {
-            var withParams = url + '?tags=' + $scope.keywords.join(',');
-            $location.url(withParams);
+            $location.url(getUrlWithTags(url));
         };
 
-        $scope.openNewTab = function (path) {
-            tab.openInNewTab(path);
+        $scope.openNewTab = function (url) {
+            tab.openInNewTab(getUrlWithTags(url));
         };
 
         $scope.keywords = [];
