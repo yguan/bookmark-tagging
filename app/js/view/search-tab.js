@@ -77,6 +77,10 @@ module.exports = {
 
             bookmarkRepo.findByTitle($scope.keywords, {
                 success: function (bookmarks) {
+                    _.each(bookmarks, function (bookmark) {
+                        bookmark.tags = tagGroupCache[bookmark.tagGroupId];
+                    });
+                    
                     $scope.gridData = _.uniq(_.union($scope.gridData, bookmarks), 'id');
                     $scope.$apply();
                 },
