@@ -24,6 +24,11 @@ module.exports = {
             $location.url(url);
         };
 
+        $scope.goWithTags = function (url) {
+            var withParams = url + '?tags=' + $scope.keywords.join(',');
+            $location.url(withParams);
+        };
+
         $scope.openNewTab = function (path) {
             tab.openInNewTab(path);
         };

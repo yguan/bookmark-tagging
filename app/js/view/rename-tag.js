@@ -5,6 +5,8 @@ module.exports = {
     name: 'RenameTagCtrl',
     controller: function($scope, $location) {
 
+        var queryStringTags = $location.search().tags
+
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
         };
@@ -52,6 +54,10 @@ module.exports = {
                 }
             })
         };
+
+        if (queryStringTags){
+            $scope.oldTags = queryStringTags.split(',');
+        }
     }
 };
 
