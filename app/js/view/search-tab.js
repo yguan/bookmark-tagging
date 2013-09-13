@@ -114,7 +114,7 @@ module.exports = {
         },true);
 
         if (queryStringTags){
-            $scope.keywords = queryStringTags.split(', ');
+            $scope.keywords = queryStringTags.split(',');
         }
     }
 };
