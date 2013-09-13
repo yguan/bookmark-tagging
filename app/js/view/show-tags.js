@@ -8,6 +8,7 @@ var tagGroupRepo = require('data/tag-group-repository'),
 module.exports = {
     name: 'ShowTagsCtrl',
     controller: function ($scope, $location) {
+        var tagGroupsCache = [];
 
         $scope.go = function (url) {
             $location.url(url);
@@ -42,15 +43,20 @@ module.exports = {
                 _.each(tagGroups, function (tagGroup) {
                     tagGroup.tagsStr = tagGroup.tags.join(', ');
                 });
+                tagGroupsCache = tagGroups;
                 $scope.gridData = tagGroups;
                 $scope.$apply();
             }
         });
 
         $scope.$watch('keywords', function(newValue, oldValue) {
-            $scope.gridData = _.filter($scope.gridData, function (tagGroup) {
-                return _.in(newValue, tagGroup.tags);
-            });
+            if (newValue.length && newValue.length > 0) {
+                $scope.gridData = _.filter(tagGroupsCache, function (tagGroup) {
+                    return _.in(newValue, tagGroup.tags);
+                });
+            } else {
+                $scope.gridData = tagGroupsCache;
+            }
         },true);
     }
 };
