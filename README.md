@@ -20,7 +20,7 @@ Here are a couple links on building Chrome extension:
 
 Build
 -
-[cajon.js](https://github.com/requirejs/cajon) is used to manage dependency, and r.js is used to build the package. You can modify `app.build.js` to package the way you want. Details can be find [here](http://requirejs.org/docs/optimization.html#wholeproject).
+[require.js](http://requirejs.org/) is used to manage dependency, and r.js is used to build the package. You can modify `app.build.js` to package the way you want. Details can be find [here](http://requirejs.org/docs/optimization.html#wholeproject).
 
 To build the package, you have to have node.js installed, then in command line console, run the followings steps:
 
