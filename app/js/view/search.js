@@ -18,7 +18,7 @@ define(function (require, exports, module) {
 
         var queryStringTags = $location.search().tags,
             getUrlWithTags = function (url) {
-                return url + '?tags=' + $scope.keywords.join(',');
+                return url + '?tags=' + encodeURI($scope.keywords.join(','));
             };
 
         $scope.getTags = function () {

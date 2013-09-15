@@ -17,7 +17,7 @@ define(function (require, exports, module) {
         };
 
         $scope.searchWithTags = function (tags) {
-            var url = '/search?tags=' + tags;
+            var url = '/search?tags=' + encodeURI(tags);
             $location.url(url);
         };
 
