@@ -9,7 +9,7 @@ define(function (require, exports, module) {
     exports.controller = function ($scope, $location) {
 
         function getUrlWithTags (url) {
-            return url + '?tags=' + encodeURI($scope.selectedTags.join(','));
+            return url + '?tags=' + encodeURIComponent($scope.selectedTags.join(','));
         }
 
         function getActiveTab() {
