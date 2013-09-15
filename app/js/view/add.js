@@ -1,14 +1,20 @@
-var bookmarkRepo = require('data/bookmark-repository'),
-    tagGroupRepo = require('data/tag-group-repository'),
-    tab = require('view/tab');
+define(function (require, exports, module) {
 
-module.exports = {
-    name: 'AddCtrl',
-    controller: function($scope, $location) {
+    var bookmarkRepo = require('data/bookmark-repository'),
+        tagGroupRepo = require('data/tag-group-repository'),
+        tab = require('view/tab');
+
+    exports.name = 'AddCtrl';
+
+    exports.controller = function ($scope, $location) {
+
+        function getUrlWithTags (url) {
+            return url + '?tags=' + $scope.selectedTags.join(',');
+        }
 
         function getActiveTab() {
             if (chrome.tabs && chrome.tabs.query) {
-                chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
+                chrome.tabs.query({active: true, currentWindow: true}, function (arrayOfTabs) {
                     // since only one tab should be active and in the current window at once
                     // the return variable should only have one entry
                     var activeTab = arrayOfTabs[0],
@@ -60,14 +66,20 @@ module.exports = {
             $location.url(url);
         };
 
-        $scope.openNewTab = function (path) {
-            tab.openInNewTab(path);
+        $scope.goWithTags = function (url) {
+            $location.url(getUrlWithTags(url));
+        };
+
+        $scope.openNewTab = function (url) {
+            tab.openInNewTab(getUrlWithTags(url));
         };
 
         $scope.save = function () {
             $scope.isSaving = true;
 
-            var tags = _.map($scope.selectedTags, function(str){ return str.toLowerCase(); });
+            var tags = _.map($scope.selectedTags, function (str) {
+                return str.toLowerCase();
+            });
             tagGroupRepo.add(tags, {
                 success: function (tagGroup) {
                     bookmarkRepo.add({
@@ -86,6 +98,5 @@ module.exports = {
                 }
             })
         };
-    }
-};
-
+    };
+});

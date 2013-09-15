@@ -1,41 +1,51 @@
-var bookmarkLoader = require('data/bookmark-loader'),
-    idb = require('data/idb'),
-    bookmarkRepo = require('data/bookmark-repository'),
-    tagGroupRepo = require('data/tag-group-repository'),
-    fileSaver = require('lib/FileSaver'),
-    tab = require('view/tab');
+define(function (require, exports, module) {
 
-function hideMsgAfterward($scope) {
-    setTimeout(function () {
-        $scope.alerts = [];
-        $scope.$apply();
-    }, 2000);
-}
+    var bookmarkLoader = require('data/bookmark-loader'),
+        idb = require('data/idb'),
+        bookmarkRepo = require('data/bookmark-repository'),
+        tagGroupRepo = require('data/tag-group-repository'),
+        fileSaver = require('lib/FileSaver'),
+        tab = require('view/tab');
 
-module.exports = {
-    name: 'ActionsCtrl',
-    controller: function($scope, $location) {
+    function hideMsgAfterward($scope) {
+        setTimeout(function () {
+            $scope.alerts = [];
+            $scope.$apply();
+        }, 2000);
+    }
+
+    exports.name = 'ActionsCtrl';
+
+    exports.controller = function ($scope, $location) {
         var loadBookmarksOp = {
                 success: function (msg) {
-                    $scope.alerts = [{ type: 'success', msg: msg || 'Loaded bookmarks successfully.' }];
+                    $scope.alerts = [
+                        { type: 'success', msg: msg || 'Loaded bookmarks successfully.' }
+                    ];
                     $scope.loadBtn.disabled = false;
                     $scope.$apply();
                     hideMsgAfterward($scope);
                 },
                 failure: function (msg) {
-                    $scope.alerts = [{ type: 'error', msg: msg || 'Failed to load all bookmarks.' }];
+                    $scope.alerts = [
+                        { type: 'error', msg: msg || 'Failed to load all bookmarks.' }
+                    ];
                     $scope.$apply();
                 }
             },
             exportOp = {
                 success: function (msg) {
-                    $scope.alerts = [{ type: 'success', msg: msg || 'Exported bookmarks successfully.' }];
+                    $scope.alerts = [
+                        { type: 'success', msg: msg || 'Exported bookmarks successfully.' }
+                    ];
                     $scope.exportBtn.disabled = false;
                     $scope.$apply();
                     hideMsgAfterward($scope);
                 },
                 failure: function (msg) {
-                    $scope.alerts = [{ type: 'error', msg: msg || 'Failed to export bookmarks.' }];
+                    $scope.alerts = [
+                        { type: 'error', msg: msg || 'Failed to export bookmarks.' }
+                    ];
                     $scope.$apply();
                 }
             };
@@ -55,7 +65,9 @@ module.exports = {
 
         $scope.loadBookmarks = function () {
             $scope.loadBtn.disabled = true;
-            $scope.alerts = [{ type: 'info', msg: 'Loading bookmarks from Chrome' }];
+            $scope.alerts = [
+                { type: 'info', msg: 'Loading bookmarks from Chrome' }
+            ];
             if (chrome.bookmarks) {
                 // for chrome extension
                 bookmarkLoader.loadBookmarksFromChrome(loadBookmarksOp);
@@ -70,7 +82,9 @@ module.exports = {
 
         $scope.exportDB = function () {
             $scope.exportBtn.disabled = true;
-            $scope.alerts = [{ type: 'info', msg: 'Exporting bookmarks' }];
+            $scope.alerts = [
+                { type: 'info', msg: 'Exporting bookmarks' }
+            ];
             idb.export({
                 success: function (data) {
                     var blog = new Blob([JSON.stringify(data)], {type: 'text/plain;charset=utf-8'})
@@ -80,18 +94,20 @@ module.exports = {
             }, exportOp);
         };
 
-        $scope.showUpload = function() {
+        $scope.showUpload = function () {
             $scope.uploadBookmarkVisible = true;
         };
 
         $scope.onFileSelect = function ($files) {
-            $scope.alerts = [{ type: 'info', msg: 'Loading bookmarks.' }];
+            $scope.alerts = [
+                { type: 'info', msg: 'Loading bookmarks.' }
+            ];
 
             var reader = new FileReader(),
                 file = $files[0],
                 blob = file.slice(0, file.size);
 
-            reader.onload = function() {
+            reader.onload = function () {
                 var result = reader.result,
                     tagsLookup = {};
 
@@ -110,12 +126,16 @@ module.exports = {
                     bookmarkRepo.addAll(data.bookmark, {
                         success: function (results) {
                             $scope.uploadBookmarkVisible = false;
-                            $scope.alerts = [{ type: 'success', msg: 'Loaded bookmarks successfully.' }];
+                            $scope.alerts = [
+                                { type: 'success', msg: 'Loaded bookmarks successfully.' }
+                            ];
                             $scope.$apply();
                             hideMsgAfterward($scope);
                         },
                         failure: function (error) {
-                            $scope.alerts = [{ type: 'error', msg: 'Failed to load bookmarks' }];
+                            $scope.alerts = [
+                                { type: 'error', msg: 'Failed to load bookmarks' }
+                            ];
                             $scope.$apply();
                         }
                     });
@@ -125,13 +145,13 @@ module.exports = {
         };
 
 
-        $scope.addAlert = function() {
+        $scope.addAlert = function () {
             $scope.alerts.push({msg: "Another alert!"});
         };
 
-        $scope.closeAlert = function(index) {
+        $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
-    }
-};
+    };
 
+});

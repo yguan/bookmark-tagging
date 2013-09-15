@@ -215,6 +215,6 @@ var saveAs = saveAs
 	return saveAs;
 }(self));
 
-module.exports = {
-    saveAs: saveAs
-};
+define(function (require, exports, module) {
+    exports.saveAs = saveAs;
+});

@@ -1,17 +1,22 @@
-module.exports = {
-    type: {
+define(function (require, exports, module) {
+
+    exports.type = {
         success: 'success',
         error: 'error',
         info: 'info'
-    },
-    hideMsgAfterward: function($scope) {
+    };
+
+    exports.hideMsgAfterward = function ($scope) {
         setTimeout(function () {
             $scope.alerts = [];
             $scope.$apply();
         }, 2000);
-    },
-    show: function ($scope, config) {
-        $scope.alerts = [{ type: config.type, msg: config.msg }];
+    };
+
+    exports.show = function ($scope, config) {
+        $scope.alerts = [
+            { type: config.type, msg: config.msg }
+        ];
 
         if (config.withApply) {
             $scope.$apply();
@@ -20,9 +25,10 @@ module.exports = {
         if (config.hideAfterward) {
             this.hideMsgAfterward($scope);
         }
-    },
-    close: function($scope) {
-        $scope.alerts.splice(0, 1);
-    }
-};
+    };
 
+    exports.close = function ($scope) {
+        $scope.alerts.splice(0, 1);
+    };
+
+});

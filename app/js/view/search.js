@@ -1,21 +1,23 @@
-var bookmarkRepo = require('data/bookmark-repository'),
-    tagGroupRepo = require('data/tag-group-repository'),
-    tab = require('view/tab'),
-    getTitleTemplate = function () {
-        var template = '<div class="ngCellText"><a href="{url}" title="{url}" target="_blank">{title}</a></div>';
-        return template.replace(/{url}/g, '{{row.getProperty(\'url\')}}').replace('{title}', '{{row.getProperty(col.field)}}');
-    },
-    cellTemplate = {
-        dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
-        title: getTitleTemplate()
-    };
+define(function (require, exports, module) {
 
-module.exports = {
-    name: 'SearchCtrl',
-    controller: function($scope, $location) {
+    var bookmarkRepo = require('data/bookmark-repository'),
+        tagGroupRepo = require('data/tag-group-repository'),
+        tab = require('view/tab'),
+        getTitleTemplate = function () {
+            var template = '<div class="ngCellText"><a href="{url}" title="{url}" target="_blank">{title}</a></div>';
+            return template.replace(/{url}/g, '{{row.getProperty(\'url\')}}').replace('{title}', '{{row.getProperty(col.field)}}');
+        },
+        cellTemplate = {
+            dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
+            title: getTitleTemplate()
+        };
+
+    exports.name = 'SearchCtrl';
+
+    exports.controller = function ($scope, $location) {
 
         var queryStringTags = $location.search().tags,
-            getUrlWithTags = function (url){
+            getUrlWithTags = function (url) {
                 return url + '?tags=' + $scope.keywords.join(',');
             };
 
@@ -100,17 +102,17 @@ module.exports = {
             }
         }
 
-        $scope.$watch('keywords', function(newValue, oldValue) {
+        $scope.$watch('keywords', function (newValue, oldValue) {
             search();
-        },true);
+        }, true);
 
-        $scope.$watch('keywordType', function(newValue, oldValue) {
+        $scope.$watch('keywordType', function (newValue, oldValue) {
             search();
-        },true);
+        }, true);
 
-        if (queryStringTags){
+        if (queryStringTags) {
             $scope.keywords = queryStringTags.split(', ');
         }
-    }
-};
+    };
 
+});

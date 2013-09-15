@@ -1,14 +1,15 @@
-var bookmarkRepo = require('data/bookmark-repository'),
-    tagGroupRepo = require('data/tag-group-repository'),
-    tab = require('view/tab'),
-    getTagsTemplate = function () {
-        var template = '<div class="ngCellText"><a href="javascript:void(0)" ng-click="searchWithTags({tags})">{{{tags}}}</a></div>';
-        return template.replace(/{tags}/g, 'row.getProperty(col.field)');
-    };
+define(function (require, exports, module) {
 
-module.exports = {
-    name: 'ShowTagsCtrl',
-    controller: function ($scope, $location) {
+    var bookmarkRepo = require('data/bookmark-repository'),
+        tagGroupRepo = require('data/tag-group-repository'),
+        tab = require('view/tab'),
+        getTagsTemplate = function () {
+            var template = '<div class="ngCellText"><a href="javascript:void(0)" ng-click="searchWithTags({tags})">{{{tags}}}</a></div>';
+            return template.replace(/{tags}/g, 'row.getProperty(col.field)');
+        };
+
+    exports.name = 'ShowTagsCtrl';
+    exports.controller = function ($scope, $location) {
         var tagGroupsCache = [];
 
         $scope.go = function (url) {
@@ -63,7 +64,7 @@ module.exports = {
             }
         });
 
-        $scope.$watch('keywords', function(newValue, oldValue) {
+        $scope.$watch('keywords', function (newValue, oldValue) {
             if (newValue.length && newValue.length > 0) {
                 $scope.gridData = _.filter(tagGroupsCache, function (tagGroup) {
                     return _.in(newValue, tagGroup.tags);
@@ -71,7 +72,7 @@ module.exports = {
             } else {
                 $scope.gridData = tagGroupsCache;
             }
-        },true);
-    }
-};
+        }, true);
+    };
 
+});

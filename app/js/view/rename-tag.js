@@ -1,9 +1,11 @@
-var tagGroupRepo = require('data/tag-group-repository'),
-    alerts = require('view/alerts');
+define(function (require, exports, module) {
 
-module.exports = {
-    name: 'RenameTagCtrl',
-    controller: function($scope, $location) {
+    var tagGroupRepo = require('data/tag-group-repository'),
+        alerts = require('view/alerts');
+
+    exports.name = 'RenameTagCtrl';
+
+    exports.controller = function ($scope, $location) {
 
         var queryStringTags = $location.search().tags
 
@@ -15,7 +17,7 @@ module.exports = {
         $scope.newTags = [];
         $scope.renameBtn = { disabled: false };
 
-        $scope.isUnchanged = function(oldTags, newTags) {
+        $scope.isUnchanged = function (oldTags, newTags) {
             return oldTags.length === 0 || newTags.length === 0;
         };
 
@@ -23,7 +25,7 @@ module.exports = {
             $location.url(url);
         };
 
-        $scope.closeAlert = function() {
+        $scope.closeAlert = function () {
             alerts.close($scope);
         };
 
@@ -55,9 +57,9 @@ module.exports = {
             })
         };
 
-        if (queryStringTags){
+        if (queryStringTags) {
             $scope.oldTags = queryStringTags.split(',');
         }
-    }
-};
+    };
 
+});
