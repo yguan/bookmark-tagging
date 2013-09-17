@@ -79,7 +79,7 @@
       self.itemsArray.push(item);
 
       // add a tag element
-      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + '">' + htmlEncode(itemText) + '<span data-role="remove"></span></span>');
+      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + '">' + itemText + '<span data-role="remove"></span></span>');
       $tag.data('item', item);
       self.$input.before($tag);
 
@@ -145,7 +145,7 @@
           $tag.addClass('tag ' + htmlEncode(tagClass));
           $tag.contents().filter(function() {
             return this.nodeType == 3;
-          })[0].nodeValue = htmlEncode(itemText);
+          })[0].nodeValue = itemText;
 
           if (self.isSelect) {
             var option = $('option', self.$element).filter(function() { return $(this).data('item') === item; });
