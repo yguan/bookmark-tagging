@@ -95,7 +95,7 @@ define(function (require, exports, module) {
                         if (renameSingleTag) {
                             tagGroup.tags[_.indexOf(tagGroup.tags, oldTags[0])] = newTags[0];
                         } else {
-                            tagGroup.tags = _.difference(tagGroup.tags, oldTags).concat(newTags);
+                            tagGroup.tags = [].concat(newTags, _.difference(tagGroup.tags, oldTags));
                         }
                     });
                 };
