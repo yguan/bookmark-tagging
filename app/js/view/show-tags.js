@@ -4,7 +4,7 @@ define(function (require, exports, module) {
         tagGroupRepo = require('data/tag-group-repository'),
         tab = require('view/tab'),
         getTagsTemplate = function () {
-            var template = '<div class="ngCellText"><a href="javascript:void(0)" ng-click="searchWithTags({tags})">{{{tags}}}</a></div>';
+            var template = '<div class="ngCellText"><a href ng-click="searchWithTags({tags})">{{{tags}}}</a></div>';
             return template.replace(/{tags}/g, 'row.getProperty(col.field)');
         };
 
