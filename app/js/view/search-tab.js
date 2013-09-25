@@ -47,7 +47,8 @@ define(function (require, exports, module) {
             columnDefs: [
                 {field: 'title', displayName: 'Title', width: 650, cellTemplate: cellTemplate.title},
                 {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded},
-                {field: 'tags', displayName: 'Tags'}
+                {field: 'tags', displayName: 'Tags'},
+                {field: 'id', displayName: '-', width: 20, cellTemplate: cellTemplate.delete}
             ]
         };
 
@@ -56,7 +57,7 @@ define(function (require, exports, module) {
             bookmarkRepo.remove($scope.gridData[index].id);
             $scope.gridData.splice(index, 1);
         };
-        
+
         function searchTags() {
             $scope.gridData = [];
 
