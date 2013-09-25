@@ -9,6 +9,7 @@ define(function (require, exports, module) {
         },
         cellTemplate = {
             dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
+            delete: '<div class="delete" ng-click="delete()" title="delete"></div>',
             title: getTitleTemplate()
         };
 
@@ -50,8 +51,15 @@ define(function (require, exports, module) {
             enableColumnResize: true,
             columnDefs: [
                 {field: 'title', displayName: 'Title', cellTemplate: cellTemplate.title},
-                {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded}
+                {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded},
+                {field: 'id', displayName: '-', width: 20, cellTemplate: cellTemplate.delete}
             ]
+        };
+
+        $scope.delete = function() {
+            var index = this.row.rowIndex;
+            bookmarkRepo.remove($scope.gridData[index].id);
+            $scope.gridData.splice(index, 1);
         };
 
         function searchTags() {

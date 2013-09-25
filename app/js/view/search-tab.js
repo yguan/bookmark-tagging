@@ -8,6 +8,7 @@ define(function (require, exports, module) {
         },
         cellTemplate = {
             dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
+            delete: '<div class="delete" ng-click="delete()" title="delete"></div>',
             title: getTitleTemplate()
         };
 
@@ -50,6 +51,12 @@ define(function (require, exports, module) {
             ]
         };
 
+        $scope.delete = function() {
+            var index = this.row.rowIndex;
+            bookmarkRepo.remove($scope.gridData[index].id);
+            $scope.gridData.splice(index, 1);
+        };
+        
         function searchTags() {
             $scope.gridData = [];
 

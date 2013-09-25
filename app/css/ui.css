@@ -103,6 +103,15 @@
     cursor: pointer;
 }
 
+.delete {
+    width: 16px;
+    height: 16px;
+    margin: 7px 2px 0 2px;
+    cursor: pointer;
+    background-image: url("../img/delete.png");
+    background-repeat: no-repeat;
+}
+
 a {
     white-space: nowrap;
     overflow: hidden;

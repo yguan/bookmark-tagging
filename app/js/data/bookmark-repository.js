@@ -64,6 +64,9 @@ define(function (require, exports, module) {
 
             addNext();
         },
+        remove: function (id, op) {
+            idb.db[dbKey].remove(id, op);
+        },
         findByKey: function (key, value, op) {
             idb.findAllByKey(dbKey, key, value, op);
         },
