@@ -11,5 +11,17 @@ _.mixin({
             lookup[item[key]] = item;
         });
         return lookup;
+    },
+    findIndex: function (searchArray, fn) {
+        var i = 0,
+            len = searchArray.length;
+
+        while (i < len) {
+            if (fn(searchArray[i], i) === true) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
     }
 });

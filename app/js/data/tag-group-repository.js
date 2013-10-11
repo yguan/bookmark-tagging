@@ -80,7 +80,9 @@ define(function (require, exports, module) {
         get: function (id, op) {
             idb.get(dbKey, id, op);
         },
-
+        remove: function (id, op) {
+            idb.db[dbKey].remove(id, op);
+        },
         /*
          * tag order is not respected
          */

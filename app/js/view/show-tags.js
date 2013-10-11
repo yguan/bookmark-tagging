@@ -76,6 +76,15 @@ define(function (require, exports, module) {
                 $scope.gridData = tagGroupsCache;
             }
         }, true);
+
+        $scope.delete = function() {
+            var id = this.row.orig.entity.id;
+            index = _.findIndex($scope.gridData, function (item) {
+                return item.id === id;
+            });
+            tagGroupRepo.remove(id);
+            $scope.gridData.splice(index, 1);
+        };
     };
 
 });
