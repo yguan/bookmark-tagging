@@ -52,8 +52,11 @@ define(function (require, exports, module) {
         };
 
         $scope.delete = function() {
-            var index = this.row.rowIndex;
-            bookmarkRepo.remove($scope.gridData[index].id);
+            var id = this.row.orig.entity.id;
+            index = _.findIndex($scope.gridData, function (item) {
+                return item.id === id;
+            });
+            bookmarkRepo.remove(id);
             $scope.gridData.splice(index, 1);
         };
 
