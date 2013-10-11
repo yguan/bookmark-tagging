@@ -2,7 +2,6 @@ define(function (require, exports, module) {
 
     var bookmarkRepo = require('data/bookmark-repository'),
         tagGroupRepo = require('data/tag-group-repository'),
-        tab = require('view/tab'),
         getTitleTemplate = function () {
             var template = '<div class="ngCellText"><a href="{url}" title="{url}" target="_blank">{title}</a></div>';
             return template.replace(/{url}/g, '{{row.getProperty(\'url\')}}').replace('{title}', '{{row.getProperty(col.field)}}');
@@ -32,10 +31,6 @@ define(function (require, exports, module) {
 
         $scope.goWithTags = function (url) {
             $location.url(getUrlWithTags(url));
-        };
-
-        $scope.openNewTab = function (url) {
-            tab.openInNewTab(getUrlWithTags(url));
         };
 
         $scope.keywords = [];

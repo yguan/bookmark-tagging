@@ -1,8 +1,7 @@
 define(function (require, exports, module) {
 
     var bookmarkRepo = require('data/bookmark-repository'),
-        tagGroupRepo = require('data/tag-group-repository'),
-        tab = require('view/tab');
+        tagGroupRepo = require('data/tag-group-repository');
 
     exports.name = 'AddCtrl';
 
@@ -68,10 +67,6 @@ define(function (require, exports, module) {
 
         $scope.goWithTags = function (url) {
             $location.url(getUrlWithTags(url));
-        };
-
-        $scope.openNewTab = function (url) {
-            tab.openInNewTab(getUrlWithTags(url));
         };
 
         $scope.save = function () {
