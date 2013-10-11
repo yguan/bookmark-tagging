@@ -8,7 +8,7 @@ define(function (require, exports, module) {
         },
         cellTemplate = {
             dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
-            delete: '<div class="delete" ng-click="delete()" title="delete"></div>',
+            delete: '<span class="delete-cell" ng-click="delete()" title="delete"></span>',
             title: getTitleTemplate()
         };
 

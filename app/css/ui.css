@@ -103,13 +103,17 @@
     cursor: pointer;
 }
 
-.delete {
+.delete, .delete-cell {
     width: 16px;
     height: 16px;
-    margin: 7px 2px 0 2px;
     cursor: pointer;
     background-image: url("../img/delete.png");
     background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.delete-cell {
+    margin: 7px 2px 0 2px;
 }
 
 a {
@@ -120,6 +124,14 @@ a {
 
 .ng-cell {
     padding: 5px;
+}
+
+.bookmark-count .left {
+    float: left;
+}
+
+.bookmark-count .right {
+    float: right;
 }
 
 ::-webkit-scrollbar {

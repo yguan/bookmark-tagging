@@ -6,7 +6,10 @@ define(function (require, exports, module) {
         getTagsTemplate = function () {
             var template = '<div class="ngCellText"><a href ng-click="searchWithTags({tags})">{{{tags}}}</a></div>';
             return template.replace(/{tags}/g, 'row.getProperty(col.field)');
-        };
+        },
+        getCountTemplate = '<div class="ngCellText bookmark-count">' +
+            '<div class="delete left" ng-hide="row.getProperty(col.field) > 0" ng-click="delete()" title="delete"></div>' +
+            '<div class="right">{{row.getProperty(col.field)}}</div></div>';
 
     exports.name = 'ShowTagsCtrl';
     exports.controller = function ($scope, $location) {
@@ -35,8 +38,8 @@ define(function (require, exports, module) {
             enableCellEditOnFocus: false,
             enableColumnResize: true,
             columnDefs: [
-                {field: 'tagsStr', displayName: 'Tags', cellTemplate: getTagsTemplate()},
-                {field: 'bookmarkCount', displayName: 'Bookmarks', width: 90}
+                {field: 'bookmarkCount', displayName: 'Bookmarks', width: 90, cellTemplate: getCountTemplate},
+                {field: 'tagsStr', displayName: 'Tags', cellTemplate: getTagsTemplate()}
             ],
             sortInfo: {fields: ['tagsStr'], directions: ['asc']}
         };
