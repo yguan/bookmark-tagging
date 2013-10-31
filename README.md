@@ -2,6 +2,10 @@
 
 This repository contains the source code of a Chrome extension which allows you to manage your bookmarks with tags instead of folders. You can package it as a Chrome extension or run it standalone as a website. You can also [download the extension](https://chrome.google.com/webstore/detail/bookmarks-tagging/kmdepbjjhlbhohppiancfgdpkjcoajgb?hl=en) from the Chrome Web Store.
 
+Demo
+-
+It's hosted [here](http://yguan.github.io/repos/bookmark-tagging). However, the Web version has some missing functionality due to the security permission in Chrome.
+
 Development
 -
 Here is a list of files that are the foundation of the app:
