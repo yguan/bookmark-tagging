@@ -1,4 +1,4 @@
-<div ng-controller="SearchCtrl" class="bookmark-search">
+<div ng-controller="SearchCtrl" class="bookmark-search" resize>
     <label>Search:</label>
     <bootstrap-tagsinput
             ng-model="keywords"
@@ -7,12 +7,11 @@
             max-visible-items=5000
             focus=true>
     </bootstrap-tagsinput>
+    <br />
     <div class="btn-group">
         <button type="button" class="btn btn-primary" ng-model="keywordType" btn-radio="'tag'">with tags</button>
         <button type="button" class="btn btn-primary" ng-model="keywordType" btn-radio="'title'">with title</button>
     </div>
-    <button type="button" class="btn btn-primary" ng-click="goWithTags('/rename-tag')">Rename tags</button>
-    <button type="button" class="btn btn-primary" ng-click="go('/show-tags')">Show all tags</button>
-    <button type="button" class="btn btn-primary" ng-click="go('/actions')">Home</button>
+    <button type="button" class="btn btn-primary" ng-click="go('/show-tags')">Show tags</button>
     <div class="grid" ng-grid="gridOptions" style="height:{{windowHeight-120}}px"></div>
 </div>

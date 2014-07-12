@@ -65,28 +65,18 @@ label {
     width: 635px;
 }
 
-.bookmark-search {
-    min-width: 790px;
-    min-height: 595px;
-    height: 100%;
-    margin: 5px;
-}
-
 .grid {
     margin-top: 10px;
 }
 
-.bookmark-search .bootstrap-tagsinput {
-    width: 782px;
-}
-
-.bookmark-search-tab {
+.bookmark-search {
     height: 100%;
     padding: 5px;
+    width: 788px;
 }
 
-.bookmark-search-tab .bootstrap-tagsinput {
-    width: 800px;
+.bookmark-search .bootstrap-tagsinput {
+    width: 788px;
 }
 
 .bookmark-show-tags {
@@ -101,7 +91,7 @@ label {
 }
 
 .bookmark-show-tags .bootstrap-tagsinput{
-    width: 705px;
+    width: 718px;
 }
 
 .btn.align-tagsinput {
@@ -117,29 +107,6 @@ label {
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-.url-icon {
-    background-image: url('link.png');
-    background-repeat: no-repeat;
-    background-position:  center center;
-    padding: 2px;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-}
-
-.delete, .delete-cell {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    background-image: url("../img/delete.png");
-    background-repeat: no-repeat;
-    display: inline-block;
-}
-
-.delete-cell {
-    margin: 7px 2px 0 2px;
 }
 
 a {

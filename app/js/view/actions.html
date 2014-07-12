@@ -6,14 +6,14 @@
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="go('/search')">
         Search
     </button>
-    <button type="button" class="btn btn-primary btn-group-vertical" ng-click="openNewTab('/search-tab')">
-        Open search tab
-    </button>
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="go('/rename-tag')">
         Rename tags
     </button>
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="go('/show-tags')">
-        Show all tags
+        Show tags
+    </button>
+    <button type="button" class="btn btn-primary btn-group-vertical" ng-click="openNewTab('/show-tags')">
+        Show tags <span class="glyphicon glyphicon-new-window"></span>
     </button>
     <button type="button" class="btn btn-primary btn-group-vertical" ng-click="loadBookmarks()" ng-disabled="loadBtn.disabled">
         Load Chrome bookmarks

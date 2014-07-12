@@ -8,18 +8,23 @@ define(function (require, exports, module) {
         },
         cellTemplate = {
             dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
-            delete: '<div class="icon-cell"><span class="glyphicon glyphicon-remove icon-delete" ng-click="delete()" title="delete"></span></div>',
+            delete: '<div class="ngCellText"><span class="glyphicon glyphicon-remove icon-delete" ng-click="delete()" title="delete"></span></div>',
             title: getTitleTemplate()
         };
 
     exports.name = 'SearchCtrl';
-
     exports.controller = function ($scope, $location) {
 
-        var queryStringTags = $location.search().tags,
-            getUrlWithTags = function (url) {
-                return url + '?tags=' + encodeURIComponent($scope.keywords.join(','));
-            };
+        var tagGroupCache = {},
+            queryStringTags = $location.search().tags;
+
+        tagGroupRepo.getAll({
+            success: function (tagGroups) {
+                _.each(tagGroups, function (tagGroup) {
+                    tagGroupCache[tagGroup.id] = tagGroup.tags.join(', ');
+                })
+            }
+        });
 
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
@@ -29,13 +34,8 @@ define(function (require, exports, module) {
             $location.url(url);
         };
 
-        $scope.goWithTags = function (url) {
-            $location.url(getUrlWithTags(url));
-        };
-
         $scope.keywords = [];
         $scope.gridData = [];
-
         $scope.keywordType = 'tag';
 
         $scope.gridOptions = {
@@ -47,16 +47,13 @@ define(function (require, exports, module) {
             columnDefs: [
                 {field: 'title', displayName: 'Title', cellTemplate: cellTemplate.title},
                 {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded},
-                {field: 'id', displayName: '-', width: 35, cellTemplate: cellTemplate.delete}
+                {field: 'id', displayName: '', width: 35, cellTemplate: cellTemplate.delete}
             ]
         };
 
         $scope.delete = function() {
-            var id = this.row.orig.entity.id;
-            index = _.findIndex($scope.gridData, function (item) {
-                return item.id === id;
-            });
-            bookmarkRepo.remove(id);
+            var index = this.row.rowIndex;
+            bookmarkRepo.remove($scope.gridData[index].id);
             $scope.gridData.splice(index, 1);
         };
 
@@ -68,6 +65,10 @@ define(function (require, exports, module) {
                     _.each(tagGroups, function (tagGroup) {
                         bookmarkRepo.findByKey('tagGroupId', tagGroup.id, {
                             success: function (bookmarks) {
+                                _.each(bookmarks, function (bookmark) {
+                                    bookmark.tags = tagGroupCache[bookmark.tagGroupId];
+                                });
+
                                 $scope.gridData = _.uniq(_.union($scope.gridData, bookmarks), 'id');
                                 $scope.$apply();
                             },
@@ -85,6 +86,10 @@ define(function (require, exports, module) {
 
             bookmarkRepo.findByTitle($scope.keywords, {
                 success: function (bookmarks) {
+                    _.each(bookmarks, function (bookmark) {
+                        bookmark.tags = tagGroupCache[bookmark.tagGroupId];
+                    });
+
                     $scope.gridData = _.uniq(_.union($scope.gridData, bookmarks), 'id');
                     $scope.$apply();
                 },
@@ -117,8 +122,9 @@ define(function (require, exports, module) {
         }, true);
 
         if (queryStringTags) {
-            $scope.keywords = queryStringTags.split(', ');
+            $scope.keywords = queryStringTags.split(',');
         }
     };
 
 });
+

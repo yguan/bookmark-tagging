@@ -16,6 +16,7 @@
 
     <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="isSaveBtnDisabled(title, url, selectedTags, isSaving)">Save bookmark</button>
     <button type="button" class="btn btn-primary" ng-click="goWithTags('/search')">Go to search</button>
-    <button type="button" class="btn btn-primary" ng-click="go('/show-tags')">Show all tags</button>
+    <button type="button" class="btn btn-primary" ng-click="go('/show-tags')">Show tags</button>
+    <button type="button" class="btn btn-primary" ng-click="openNewTab('/show-tags')">Show tags <span class="glyphicon glyphicon-new-window"></span></button>
     <button type="button" class="btn btn-primary" ng-click="go('/actions')">Home</button>
 </div>

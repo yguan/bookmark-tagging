@@ -4,7 +4,7 @@ define(function (require, exports, module) {
         tagGroupRepo = require('data/tag-group-repository'),
         tab = require('view/tab'),
         getTagsTemplate = function () {
-            var template = '<div class="ngCellText"><a href ng-click="searchWithTags({tags})">{{{tags}}}</a></div>';
+            var template = '<div class="ngCellText"><a ng-href="#/search?tags={{row.getProperty(\'encodedTagsStr\')}}">{{{tags}}}</a></div>';
             return template.replace(/{tags}/g, 'row.getProperty(col.field)');
         },
         getCountTemplate = '<div class="ngCellText bookmark-count">' +
@@ -51,6 +51,7 @@ define(function (require, exports, module) {
 
                 _.each(tagGroupsCache, function (tagGroup) {
                     tagGroup.tagsStr = tagGroup.tags.join(', ');
+                    tagGroup.encodedTagsStr = encodeURIComponent(tagGroup.tagsStr);
                     tagGroup.bookmarkCount = 0;
                 });
 
