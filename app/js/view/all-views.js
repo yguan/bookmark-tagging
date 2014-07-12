@@ -26,7 +26,7 @@ define(function (require, exports, module) {
 
     exports.init = function () {
         angular.element(document).ready(function () {
-            var bookmarkApp = angular.module('bookmark', ['ui.bootstrap', 'bootstrap-tagsinput', 'ngGrid', 'angularFileUpload', 'styling']);
+            var bookmarkApp = angular.module('bookmark', ['ngRoute', 'ui.bootstrap', 'bootstrap-tagsinput', 'ngGrid', 'angularFileUpload', 'styling']);
 
             configViewRouting(bookmarkApp);
             registerController(bookmarkApp, actions.name, actions.controller);

@@ -2,6 +2,36 @@
     overflow: hidden;
 }
 
+label {
+    display: block;
+    margin: 5px;
+}
+
+.round-field {
+    padding: 4px 6px;
+    margin-bottom: 10px;
+    display: inline-block;
+    height: 32px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #555;
+    vertical-align: middle;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+}
+
+.icon-cell {
+    padding: 2px;
+}
+
+.icon-delete {
+    font-size: 20px;
+    color: red;
+    cursor: pointer;
+}
+
 .bookmark-actions {
     width: 320px;
     margin: 5px 0 5px 0;
@@ -36,22 +66,18 @@
 }
 
 .bookmark-search {
-    width: 795px;
+    min-width: 790px;
     min-height: 595px;
     height: 100%;
-    padding: 5px 0 0 5px;
+    margin: 5px;
 }
 
 .grid {
     margin-top: 10px;
 }
 
-.bookmark-search .grid {
-    width: 790px;
-}
-
 .bookmark-search .bootstrap-tagsinput {
-    width: 775px;
+    width: 782px;
 }
 
 .bookmark-search-tab {
@@ -136,14 +162,4 @@ a {
 
 ::-webkit-scrollbar {
     width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }

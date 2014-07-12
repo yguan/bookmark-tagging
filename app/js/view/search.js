@@ -8,7 +8,7 @@ define(function (require, exports, module) {
         },
         cellTemplate = {
             dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
-            delete: '<span class="delete-cell" ng-click="delete()" title="delete"></span>',
+            delete: '<div class="icon-cell"><span class="glyphicon glyphicon-remove icon-delete" ng-click="delete()" title="delete"></span></div>',
             title: getTitleTemplate()
         };
 
@@ -43,11 +43,11 @@ define(function (require, exports, module) {
             enableCellSelection: false,
             enableRowSelection: false,
             enableCellEditOnFocus: false,
-            enableColumnResize: true,
+            enableColumnResize: false,
             columnDefs: [
                 {field: 'title', displayName: 'Title', cellTemplate: cellTemplate.title},
                 {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded},
-                {field: 'id', displayName: '-', width: 20, cellTemplate: cellTemplate.delete}
+                {field: 'id', displayName: '-', width: 35, cellTemplate: cellTemplate.delete}
             ]
         };
 

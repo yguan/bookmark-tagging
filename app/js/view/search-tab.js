@@ -8,7 +8,7 @@ define(function (require, exports, module) {
         },
         cellTemplate = {
             dateAdded: '<div class="ngCellText">{{row.getProperty(col.field).toLocaleDateString()}}</div>',
-            delete: '<div class="delete" ng-click="delete()" title="delete"></div>',
+            delete: '<div class="ngCellText"><span class="glyphicon glyphicon-remove icon-delete" ng-click="delete()" title="delete"></span></div>',
             title: getTitleTemplate()
         };
 
@@ -48,7 +48,7 @@ define(function (require, exports, module) {
                 {field: 'title', displayName: 'Title', width: 650, cellTemplate: cellTemplate.title},
                 {field: 'dateAdded', displayName: 'Date Added', width: 100, cellTemplate: cellTemplate.dateAdded},
                 {field: 'tags', displayName: 'Tags'},
-                {field: 'id', displayName: '-', width: 20, cellTemplate: cellTemplate.delete}
+                {field: 'id', displayName: '-', width: 35, cellTemplate: cellTemplate.delete}
             ]
         };
 

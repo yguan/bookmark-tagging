@@ -9,7 +9,7 @@ define(function (require, exports, module) {
         },
         getCountTemplate = '<div class="ngCellText bookmark-count">' +
             '<div class="left">{{row.getProperty(col.field)}}</div>' +
-            '<div class="delete right" ng-hide="row.getProperty(col.field) > 0" ng-click="delete()" title="delete"></div>' +
+            '<div class="glyphicon glyphicon-remove icon-delete right" ng-hide="row.getProperty(col.field) > 0" ng-click="delete()" title="delete"></div>' +
             '</div>';
 
     exports.name = 'ShowTagsCtrl';
