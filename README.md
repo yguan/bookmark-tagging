@@ -7,6 +7,7 @@ Demo
 It's hosted [here](http://yguan.github.io/repos/bookmark-tagging). However, the Web version has some missing functionality due to the security permission in Chrome.
 
 User Manual
+-
 
 The user manual on how to use the bookmark extension is [here](User-Manual.md).
 
