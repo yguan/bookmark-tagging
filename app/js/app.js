@@ -17,7 +17,6 @@ require([
     'lib/bootstrap3-typeahead'
 ], function() {
     require([
-        'lib/angular/ui-bootstrap',
         'lib/angular/ui-bootstrap-tpls',
         'lib/angular/bootstrap-tagsinput',
         'lib/angular/bootstrap-tagsinput-angular',
