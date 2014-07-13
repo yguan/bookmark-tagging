@@ -97,6 +97,9 @@ label {
     background-color: #3a87ad;
     font-size: 12px;
 }
+.tag.label {
+    padding: .2em .6em;
+}
 
 .typeahead {
     max-height: 300px;

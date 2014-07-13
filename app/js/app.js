@@ -13,7 +13,8 @@ require([
     'lib/jquery',
     'lib/angular/angular',
     'lib/angular/angular-route',
-    'lib/bootstrap/bootstrap'
+    'lib/bootstrap/bootstrap',
+    'lib/bootstrap3-typeahead'
 ], function() {
     require([
         'lib/angular/ui-bootstrap',
