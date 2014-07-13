@@ -128,3 +128,7 @@ a {
 .upload-container input[type="file"] {
     display: inline-block;
 }
+
+.alert {
+    padding: 5px;
+}
