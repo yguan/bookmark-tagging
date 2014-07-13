@@ -69,16 +69,11 @@ label {
     margin-top: 10px;
 }
 
-.bookmark-search {
-    height: 100%;
-    padding: 5px;
-    width: 788px;
-}
-
 .bookmark-search .bootstrap-tagsinput {
     width: 788px;
 }
 
+.bookmark-search,
 .bookmark-show-tags {
     height: 100%;
     min-height: 590px;
@@ -91,7 +86,7 @@ label {
 }
 
 .bookmark-show-tags .bootstrap-tagsinput{
-    width: 718px;
+    width: 721px;
 }
 
 .btn.align-tagsinput {
