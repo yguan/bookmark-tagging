@@ -124,3 +124,7 @@ a {
 .bookmark-count .right {
     float: right;
 }
+
+.upload-container input[type="file"] {
+    display: inline-block;
+}
