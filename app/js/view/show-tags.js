@@ -37,7 +37,7 @@ define(function (require, exports, module) {
             enableCellSelection: false,
             enableRowSelection: false,
             enableCellEditOnFocus: false,
-            enableColumnResize: true,
+            enableColumnResize: false,
             columnDefs: [
                 {field: 'bookmarkCount', displayName: 'Bookmarks', width: 90, cellTemplate: getCountTemplate},
                 {field: 'tagsStr', displayName: 'Tags', cellTemplate: getTagsTemplate()}

@@ -124,7 +124,3 @@ a {
 .bookmark-count .right {
     float: right;
 }
-
-::-webkit-scrollbar {
-    width: 12px;
-}
