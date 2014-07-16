@@ -191,6 +191,7 @@
         makeOptionFunction(typeahead, 'source');
 
         self.$input.typeahead({
+          delay: 80,
           items: typeahead.items || 1000,
           source: function (query, process) {
             function processItems(items) {
