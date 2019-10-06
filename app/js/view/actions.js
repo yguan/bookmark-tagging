@@ -118,6 +118,16 @@ define(function (require, exports, module) {
                         data = JSON.parse(result);
                         break;
                     case 'text/html':
+                        let dom = new DOMParser();
+                        let doc = dom.parseFromString(result, file.type);
+                        let links = doc.getElementsByName('a');
+                        if(!links || !links.length) {
+                            $scope.alerts = [
+                                { type: 'info', msg: 'No links found' }
+                            ];
+                            $scope.$apply();
+                            return;
+                        }
                         $scope.alerts = [
                             { type: 'danger', msg: 'Work in progress' }
                         ];
@@ -130,8 +140,6 @@ define(function (require, exports, module) {
                         $scope.$apply();
                         return;
                 }
-
-                let data = JSON.parse(result);
 
                 _.each(data.tagGroup, function (tagGroup) {
                     tagsLookup[tagGroup.id] = tagGroup.tags;
