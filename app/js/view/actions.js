@@ -112,6 +112,8 @@ define(function (require, exports, module) {
 
                 if (result.length === 0) return;
 
+                console.log(result);
+
                 let data = JSON.parse(result);
 
                 _.each(data.tagGroup, function (tagGroup) {
