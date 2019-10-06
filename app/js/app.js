@@ -26,7 +26,6 @@ require([
         'extension/lodash.underscore'
     ], function() {
         require([
-
             'data/bookmark-loader',
             'view/all-views'
         ], function(loader, views) {
