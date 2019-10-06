@@ -107,7 +107,7 @@ define(function (require, exports, module) {
                 blob = file.slice(0, file.size);
 
             reader.onload = function () {
-                let result = reader.result,
+                let result = "" + reader.result,
                     tagsLookup = {};
 
                 if (result.length === 0) return;
