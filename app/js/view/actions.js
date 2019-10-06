@@ -162,10 +162,18 @@ define(function (require, exports, module) {
                         for(i = 0, l = links.length; i < l; i++) {
                             groupSet.add(JSON.stringify(linkTags(links[i])));
                         }
+                        i = 1;
+                        groupSet.forEach((group) => {
+                            data.tagGroup.push({
+                                id: i++,
+                                tags: JSON.parse(group)
+                            });
+                        });
                         let groups = ['', ... groupSet];
 
                         for(i = 0, l = links.length; i < l; i++) {
                             let info = linkInfo(links[i]);
+                            info.id = i + 1;
                             let tags = JSON.stringify(linkTags(links[i]));
                             let tagId = groups.indexOf(tags);
                             if(tagId) info.tagGroupId = tagId;
