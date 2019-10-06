@@ -111,7 +111,7 @@ define(function (require, exports, module) {
                     tagsLookup = {};
 
                 if (result.length === 0) return;
-                let data = "";
+                let data = {};
 
                 switch(file.type) {
                     case 'application/json':
