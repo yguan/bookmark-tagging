@@ -123,7 +123,7 @@ define(function (require, exports, module) {
 
         $scope.onFileSelect = function ($files) {
             $scope.alerts = [
-                { type: 'info', msg: 'Loading bookmarks.' }
+                { type: 'info', msg: 'Importing bookmarks.' }
             ];
 
             let reader = new FileReader(),
