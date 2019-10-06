@@ -160,32 +160,14 @@ define(function (require, exports, module) {
 
                         let groupSet = new Set();
                         for(i = 0, l = links.length; i < l; i++) {
-                            let tags = linkTags(links[i]);
-                            groupSet.add(tags);
+                            groupSet.add(JSON.stringify(linkTags(links[i])));
                         }
-
-                        i = 1;
-                        groupSet.forEach((el) => {
-                            let tag = {};
-                            tag.tags = el;
-                            tag.id = i;
-                            data.tagGroup.push(tag);
-                            el.value = i;
-                            i++;
-                        });
+                        let groups = ['', ... groupSet];
 
                         for(i = 0, l = links.length; i < l; i++) {
                             let info = linkInfo(links[i]);
                             let tags = JSON.stringify(linkTags(links[i]));
-                            let tagId = 0;
-                            groupSet.forEach((el) => {
-                                let v = el.value;
-                                delete el.value;
-                                if(JSON.stringify(el) === tags) {
-                                    tagId = v;
-                                    return false;
-                                }
-                            });
+                            let tagId = groups.indexOf(tags);
                             if(tagId) info.tagGroupId = tagId;
                             data.bookmark.push(info);
                         }
