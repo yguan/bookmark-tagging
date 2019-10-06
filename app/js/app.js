@@ -9,9 +9,9 @@ require.config({
 });
 
 require([
+    'lib/angular/angular',
     'lib/lodash.underscore',
     'lib/jquery',
-    'lib/angular/angular',
     'lib/angular/angular-route',
     'lib/bootstrap/bootstrap',
     'lib/bootstrap3-typeahead'
