@@ -13,7 +13,7 @@ define(function (require, exports, module) {
         }, 2000);
     }
 
-    function parseLink(link) {
+    function linkInfo(link) {
         let info = {};
 
         let url = link.getAttribute('href');
@@ -29,6 +29,12 @@ define(function (require, exports, module) {
         }
 
         return info;
+    }
+
+    function linkTags(link) {
+        let tagList = link.getAttribute('tags');
+
+        return tagList ? tagList.split(',') : [];
     }
 
     exports.name = 'ActionsCtrl';
@@ -136,8 +142,10 @@ define(function (require, exports, module) {
                         data = JSON.parse(result);
                         break;
                     case 'text/html':
+                        let i, l;
                         let dom = new DOMParser();
                         let doc = dom.parseFromString(result, file.type);
+
                         let links = doc.getElementsByTagName('a');
                         if(!links || !links.length) {
                             $scope.alerts = [
@@ -146,10 +154,40 @@ define(function (require, exports, module) {
                             $scope.$apply();
                             return;
                         }
+
                         data.tagGroup = [];
                         data.bookmark = [];
-                        for(let i = 0, l = links.length; i < l; i++) {
-                            data.bookmark.push(parseLink(links[i]));
+
+                        let groupSet = new Set();
+                        for(i = 0, l = links.length; i < l; i++) {
+                            let tags = linkTags(links[i]);
+                            groupSet.add(tags);
+                        }
+
+                        i = 1;
+                        groupSet.forEach((el) => {
+                            let tag = {};
+                            tag.tags = el;
+                            tag.id = i;
+                            data.tagGroup.push(tag);
+                            el.value = i;
+                            i++;
+                        });
+
+                        for(i = 0, l = links.length; i < l; i++) {
+                            let info = linkInfo(links[i]);
+                            let tags = JSON.stringify(linkTags(links[i]));
+                            let tagId = 0;
+                            groupSet.forEach((el) => {
+                                let v = el.value;
+                                delete el.value;
+                                if(JSON.stringify(el) === tags) {
+                                    tagId = v;
+                                    return false;
+                                }
+                            });
+                            if(tagId) info.tagGroupId = tagId;
+                            data.bookmark.push(info);
                         }
                         break;
                     default:
