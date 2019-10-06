@@ -13,6 +13,24 @@ define(function (require, exports, module) {
         }, 2000);
     }
 
+    function parseLink(link) {
+        let info = {};
+
+        let url = link.getAttribute('href');
+        if(url) info.url = url;
+
+        let title = link.innerText;
+        if(title) info.title = title;
+
+        let dateAdded = link.getAttribute('add_date');
+        if(dateAdded) {
+            let date = new Date(parseInt(dateAdded) * 1000);
+            info.dateAdded = date.toISOString();
+        }
+
+        return info;
+    }
+
     exports.name = 'ActionsCtrl';
 
     exports.controller = function ($scope, $location) {
@@ -128,11 +146,12 @@ define(function (require, exports, module) {
                             $scope.$apply();
                             return;
                         }
-                        $scope.alerts = [
-                            { type: 'danger', msg: 'Work in progress' }
-                        ];
-                        $scope.$apply();
-                        return;
+                        data.tagGroup = [];
+                        data.bookmark = [];
+                        for(let i = 0, l = links.length; i < l; i++) {
+                            data.bookmark.push(parseLink(links[i]));
+                        }
+                        break;
                     default:
                         $scope.alerts = [
                             { type: 'danger', msg: 'Unsupported file format' }
