@@ -120,7 +120,7 @@ define(function (require, exports, module) {
                     case 'text/html':
                         let dom = new DOMParser();
                         let doc = dom.parseFromString(result, file.type);
-                        let links = doc.getElementsByName('a');
+                        let links = doc.getElementsByTagName('a');
                         if(!links || !links.length) {
                             $scope.alerts = [
                                 { type: 'info', msg: 'No links found' }
