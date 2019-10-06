@@ -111,9 +111,11 @@ define(function (require, exports, module) {
                     tagsLookup = {};
 
                 if (result.length === 0) return;
+                let data = "";
 
                 switch(file.type) {
                     case 'application/json':
+                        data = JSON.parse(result);
                         break;
                     case 'text/html':
                         $scope.alerts = [
