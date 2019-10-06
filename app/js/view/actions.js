@@ -151,7 +151,7 @@ define(function (require, exports, module) {
                     },
                     failure: function (error) {
                         $scope.alerts = [
-                            { type: 'error', msg: 'Failed to load bookmarks' }
+                            { type: 'danger', msg: 'Failed to load bookmarks' }
                         ];
                         $scope.$apply();
                     }
