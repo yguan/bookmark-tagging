@@ -9,14 +9,14 @@ require.config({
 });
 
 require([
-    'lib/angular/angular',
-    'lib/lodash.underscore',
     'lib/jquery',
-    'lib/angular/angular-route',
+    'lib/lodash.underscore',
     'lib/bootstrap/bootstrap',
-    'lib/bootstrap3-typeahead'
+    'lib/bootstrap3-typeahead',
+    'lib/angular/angular'
 ], function() {
     require([
+        'lib/angular/angular-route',
         'lib/angular/ui-bootstrap-tpls',
         'lib/angular/bootstrap-tagsinput',
         'lib/angular/bootstrap-tagsinput-angular',
