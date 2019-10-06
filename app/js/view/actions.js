@@ -52,7 +52,7 @@ define(function (require, exports, module) {
                 },
                 failure: function (msg) {
                     $scope.alerts = [
-                        { type: 'error', msg: msg || 'Failed to load all bookmarks.' }
+                        { type: 'danger', msg: msg || 'Failed to load all bookmarks.' }
                     ];
                     $scope.$apply();
                 }
@@ -68,7 +68,7 @@ define(function (require, exports, module) {
                 },
                 failure: function (msg) {
                     $scope.alerts = [
-                        { type: 'error', msg: msg || 'Failed to export bookmarks.' }
+                        { type: 'danger', msg: msg || 'Failed to export bookmarks.' }
                     ];
                     $scope.$apply();
                 }
