@@ -102,17 +102,17 @@ define(function (require, exports, module) {
                 { type: 'info', msg: 'Loading bookmarks.' }
             ];
 
-            var reader = new FileReader(),
+            let reader = new FileReader(),
                 file = $files[0],
                 blob = file.slice(0, file.size);
 
             reader.onload = function () {
-                var result = reader.result,
+                let result = reader.result,
                     tagsLookup = {};
 
                 if (result.length === 0) return;
 
-                var data = JSON.parse(result); // Presumed content is a json string!
+                let data = JSON.parse(result);
 
                 _.each(data.tagGroup, function (tagGroup) {
                     tagsLookup[tagGroup.id] = tagGroup.tags;
