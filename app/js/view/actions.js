@@ -3,6 +3,7 @@ define(function (require, exports, module) {
     var bookmarkLoader = require('data/bookmark-loader'),
         idb = require('data/idb'),
         bookmarkRepo = require('data/bookmark-repository'),
+        tagGroupRepo = require('data/tag-group-repository'),
         fileSaver = require('lib/FileSaver'),
         tab = require('view/tab');
 
