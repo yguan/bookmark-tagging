@@ -112,7 +112,22 @@ define(function (require, exports, module) {
 
                 if (result.length === 0) return;
 
-                console.log(result);
+                switch(file.type) {
+                    case 'application/json':
+                        break;
+                    case 'text/html':
+                        $scope.alerts = [
+                            { type: 'danger', msg: 'Work in progress' }
+                        ];
+                        $scope.$apply();
+                        return;
+                    default:
+                        $scope.alerts = [
+                            { type: 'danger', msg: 'Unsupported file format' }
+                        ];
+                        $scope.$apply();
+                        return;
+                }
 
                 let data = JSON.parse(result);
 
