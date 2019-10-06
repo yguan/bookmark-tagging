@@ -110,35 +110,35 @@ define(function (require, exports, module) {
                 var result = reader.result,
                     tagsLookup = {};
 
-                if (result.length > 0) {
-                    var data = JSON.parse(result); // Presumed content is a json string!
+                if (result.length === 0) return;
 
-                    _.each(data.tagGroup, function (tagGroup) {
-                        tagsLookup[tagGroup.id] = tagGroup.tags;
-                    });
+                var data = JSON.parse(result); // Presumed content is a json string!
 
-                    _.each(data.bookmark, function (bookmark) {
-                        bookmark.tags = tagsLookup[bookmark.tagGroupId];
-                        bookmark.dateAdded = new Date(bookmark.dateAdded);
-                    });
+                _.each(data.tagGroup, function (tagGroup) {
+                    tagsLookup[tagGroup.id] = tagGroup.tags;
+                });
 
-                    bookmarkRepo.addAll(data.bookmark, {
-                        success: function (results) {
-                            $scope.uploadBookmarkVisible = false;
-                            $scope.alerts = [
-                                { type: 'success', msg: 'Loaded bookmarks successfully.' }
-                            ];
-                            $scope.$apply();
-                            hideMsgAfterward($scope);
-                        },
-                        failure: function (error) {
-                            $scope.alerts = [
-                                { type: 'error', msg: 'Failed to load bookmarks' }
-                            ];
-                            $scope.$apply();
-                        }
-                    });
-                }
+                _.each(data.bookmark, function (bookmark) {
+                    bookmark.tags = tagsLookup[bookmark.tagGroupId];
+                    bookmark.dateAdded = new Date(bookmark.dateAdded);
+                });
+
+                bookmarkRepo.addAll(data.bookmark, {
+                    success: function (results) {
+                        $scope.uploadBookmarkVisible = false;
+                        $scope.alerts = [
+                            { type: 'success', msg: 'Loaded bookmarks successfully.' }
+                        ];
+                        $scope.$apply();
+                        hideMsgAfterward($scope);
+                    },
+                    failure: function (error) {
+                        $scope.alerts = [
+                            { type: 'error', msg: 'Failed to load bookmarks' }
+                        ];
+                        $scope.$apply();
+                    }
+                });
             };
             reader.readAsText(blob);
         };
