@@ -43,9 +43,9 @@ Run as a Website locally
 If you have [python](http://www.python.org/download/) installed, run the following steps in the command line console:
 
 - go to `app` folder
-- run `python -m http.server` (you can specify port number at the end as well, default is 8000)
+- run `python3 -m http.server` (you can specify port number at the end as well, default is 8000)
 - go Chrome, and type in the `localhost:8000` to the address bar
-- you should see the app running in the browser in a few second
+- you should see the app running in the browser in a few second. If nothing appears (blank page) hit reload.
 
 Note: you may have to refresh your browser manually a lot during the development so that the app loads the JavaScript files correctly.
 

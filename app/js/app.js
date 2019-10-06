@@ -9,14 +9,14 @@ require.config({
 });
 
 require([
-    'lib/lodash.underscore',
     'lib/jquery',
-    'lib/angular/angular',
-    'lib/angular/angular-route',
+    'lib/lodash.underscore',
     'lib/bootstrap/bootstrap',
-    'lib/bootstrap3-typeahead'
+    'lib/bootstrap3-typeahead',
+    'lib/angular/angular'
 ], function() {
     require([
+        'lib/angular/angular-route',
         'lib/angular/ui-bootstrap-tpls',
         'lib/angular/bootstrap-tagsinput',
         'lib/angular/bootstrap-tagsinput-angular',
@@ -26,7 +26,6 @@ require([
         'extension/lodash.underscore'
     ], function() {
         require([
-
             'data/bookmark-loader',
             'view/all-views'
         ], function(loader, views) {

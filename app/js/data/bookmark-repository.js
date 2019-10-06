@@ -101,6 +101,7 @@ define(function (require, exports, module) {
             })
         },
         each: function (fn, op) {
+            if(!op) op = { success:function(msg) {}, failure: function(msg) {} };
             idb.db[dbKey]
                 .query()
                 .filter(function (item) {

@@ -3,6 +3,7 @@ define(function (require, exports, module) {
     var bookmarkLoader = require('data/bookmark-loader'),
         idb = require('data/idb'),
         bookmarkRepo = require('data/bookmark-repository'),
+        tagGroupRepo = require('data/tag-group-repository'),
         fileSaver = require('lib/FileSaver'),
         tab = require('view/tab');
 
@@ -11,6 +12,30 @@ define(function (require, exports, module) {
             $scope.alerts = [];
             $scope.$apply();
         }, 2000);
+    }
+
+    function linkInfo(link) {
+        let info = {};
+
+        let url = link.getAttribute('href');
+        if(url) info.url = url;
+
+        let title = link.innerText;
+        if(title) info.title = title;
+
+        let dateAdded = link.getAttribute('add_date');
+        if(dateAdded) {
+            let date = new Date(parseInt(dateAdded) * 1000);
+            info.dateAdded = date.toISOString();
+        }
+
+        return info;
+    }
+
+    function linkTags(link) {
+        let tagList = link.getAttribute('tags');
+
+        return tagList ? tagList.split(',') : [];
     }
 
     exports.name = 'ActionsCtrl';
@@ -27,7 +52,7 @@ define(function (require, exports, module) {
                 },
                 failure: function (msg) {
                     $scope.alerts = [
-                        { type: 'error', msg: msg || 'Failed to load all bookmarks.' }
+                        { type: 'danger', msg: msg || 'Failed to load all bookmarks.' }
                     ];
                     $scope.$apply();
                 }
@@ -43,7 +68,7 @@ define(function (require, exports, module) {
                 },
                 failure: function (msg) {
                     $scope.alerts = [
-                        { type: 'error', msg: msg || 'Failed to export bookmarks.' }
+                        { type: 'danger', msg: msg || 'Failed to export bookmarks.' }
                     ];
                     $scope.$apply();
                 }
@@ -77,6 +102,7 @@ define(function (require, exports, module) {
 //                    bookmarkLoader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children, loadBookmarksOp);
 //                });
 //            }
+
         };
 
         $scope.exportDB = function () {
@@ -99,46 +125,109 @@ define(function (require, exports, module) {
 
         $scope.onFileSelect = function ($files) {
             $scope.alerts = [
-                { type: 'info', msg: 'Loading bookmarks.' }
+                { type: 'info', msg: 'Importing bookmarks.' }
             ];
 
-            var reader = new FileReader(),
+            let reader = new FileReader(),
                 file = $files[0],
                 blob = file.slice(0, file.size);
 
             reader.onload = function () {
-                var result = reader.result,
+                let result = "" + reader.result,
                     tagsLookup = {};
 
-                if (result.length > 0) {
-                    var data = JSON.parse(result); // Presumed content is a json string!
+                if (result.length === 0) return;
+                let data = {};
 
-                    _.each(data.tagGroup, function (tagGroup) {
-                        tagsLookup[tagGroup.id] = tagGroup.tags;
-                    });
+                switch(file.type) {
+                    case 'application/json':
+                        data = JSON.parse(result);
+                        break;
+                    case 'text/html':
+                        let i, l;
+                        let dom = new DOMParser();
+                        let doc = dom.parseFromString(result, file.type);
 
-                    _.each(data.bookmark, function (bookmark) {
-                        bookmark.tags = tagsLookup[bookmark.tagGroupId];
-                        bookmark.dateAdded = new Date(bookmark.dateAdded);
-                    });
-
-                    bookmarkRepo.addAll(data.bookmark, {
-                        success: function (results) {
-                            $scope.uploadBookmarkVisible = false;
+                        let links = doc.getElementsByTagName('a');
+                        if(!links || !links.length) {
                             $scope.alerts = [
-                                { type: 'success', msg: 'Loaded bookmarks successfully.' }
+                                { type: 'info', msg: 'No links found' }
                             ];
                             $scope.$apply();
-                            hideMsgAfterward($scope);
-                        },
-                        failure: function (error) {
-                            $scope.alerts = [
-                                { type: 'error', msg: 'Failed to load bookmarks' }
-                            ];
-                            $scope.$apply();
+                            return;
                         }
-                    });
+
+                        data.tagGroup = [];
+                        data.bookmark = [];
+
+                        let groupSet = new Set();
+                        for(i = 0, l = links.length; i < l; i++) {
+                            groupSet.add(JSON.stringify(linkTags(links[i])));
+                        }
+                        i = 1;
+                        groupSet.forEach((group) => {
+                            data.tagGroup.push({
+                                id: i++,
+                                tags: JSON.parse(group)
+                            });
+                        });
+                        let groups = ['', ... groupSet];
+
+                        for(i = 0, l = links.length; i < l; i++) {
+                            let info = linkInfo(links[i]);
+                            info.id = i + 1;
+                            let tags = JSON.stringify(linkTags(links[i]));
+                            let tagId = groups.indexOf(tags);
+                            if(tagId) info.tagGroupId = tagId;
+                            data.bookmark.push(info);
+                        }
+                        break;
+                    default:
+                        $scope.alerts = [
+                            { type: 'danger', msg: 'Unsupported file format' }
+                        ];
+                        $scope.$apply();
+                        return;
                 }
+
+                _.each(data.tagGroup, function (tagGroup) {
+                    tagsLookup[tagGroup.id] = tagGroup.tags;
+                });
+
+                _.each(data.bookmark, function (bookmark) {
+                    bookmark.tags = tagsLookup[bookmark.tagGroupId];
+                    bookmark.dateAdded = new Date(bookmark.dateAdded);
+                });
+
+                tagGroupRepo.getAll({
+                    success: function(msg) {
+                        msg.map((tagGroup) => tagGroupRepo.remove(tagGroup.id, exportOp));
+                        bookmarkRepo.each((bookmark) => bookmarkRepo.remove(bookmark.id));
+
+                        bookmarkRepo.addAll(data.bookmark, {
+                            success: function (results) {
+                                $scope.uploadBookmarkVisible = false;
+                                $scope.alerts = [
+                                    { type: 'success', msg: 'Loaded bookmarks successfully.' }
+                                ];
+                                $scope.$apply();
+                                hideMsgAfterward($scope);
+                            },
+                            failure: function (error) {
+                                $scope.alerts = [
+                                    { type: 'danger', msg: 'Failed to load bookmarks' }
+                                ];
+                                $scope.$apply();
+                            }
+                        });
+                    },
+                    failure: function(msg) {
+                        $scope.alerts = [
+                            { type: 'danger', msg: msg || 'Failed to clear bookmarks.' }
+                        ];
+                        $scope.$apply();
+                    }
+                });
             };
             reader.readAsText(blob);
         };
