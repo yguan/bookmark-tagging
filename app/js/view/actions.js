@@ -102,6 +102,7 @@ define(function (require, exports, module) {
 //                    bookmarkLoader.loadChromeBookmarks(chromeBookmarks.bookmarks[0].children[0].children, loadBookmarksOp);
 //                });
 //            }
+
         };
 
         $scope.exportDB = function () {
@@ -198,18 +199,31 @@ define(function (require, exports, module) {
                     bookmark.dateAdded = new Date(bookmark.dateAdded);
                 });
 
-                bookmarkRepo.addAll(data.bookmark, {
-                    success: function (results) {
-                        $scope.uploadBookmarkVisible = false;
-                        $scope.alerts = [
-                            { type: 'success', msg: 'Loaded bookmarks successfully.' }
-                        ];
-                        $scope.$apply();
-                        hideMsgAfterward($scope);
+                tagGroupRepo.getAll({
+                    success: function(msg) {
+                        msg.map((tagGroup) => tagGroupRepo.remove(tagGroup.id, exportOp));
+                        bookmarkRepo.each((bookmark) => bookmarkRepo.remove(bookmark.id));
+
+                        bookmarkRepo.addAll(data.bookmark, {
+                            success: function (results) {
+                                $scope.uploadBookmarkVisible = false;
+                                $scope.alerts = [
+                                    { type: 'success', msg: 'Loaded bookmarks successfully.' }
+                                ];
+                                $scope.$apply();
+                                hideMsgAfterward($scope);
+                            },
+                            failure: function (error) {
+                                $scope.alerts = [
+                                    { type: 'danger', msg: 'Failed to load bookmarks' }
+                                ];
+                                $scope.$apply();
+                            }
+                        });
                     },
-                    failure: function (error) {
+                    failure: function(msg) {
                         $scope.alerts = [
-                            { type: 'danger', msg: 'Failed to load bookmarks' }
+                            { type: 'danger', msg: msg || 'Failed to clear bookmarks.' }
                         ];
                         $scope.$apply();
                     }
