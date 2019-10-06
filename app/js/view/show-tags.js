@@ -58,6 +58,7 @@ define(function (require, exports, module) {
                 var tagGroupLookup = _.mapToLookup(tagGroupsCache, 'id');
 
                 bookmarkRepo.each(function (bookmark) {
+                    if(typeof tagGroupLookup[bookmark.tagGroupId] === 'undefined') return;
                     tagGroupLookup[bookmark.tagGroupId].bookmarkCount++;
                 }, {
                     success: function () {
